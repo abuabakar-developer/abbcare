@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import {
   FaFacebookF,
-  FaInstagram,
+  FaGithub,
   FaLinkedinIn,
   FaPills,
   FaHeartbeat,
@@ -128,29 +128,31 @@ const Footer = () => {
           )}
         </div>
 
-        {/* Social Media Section */}
-        <div>
-          <h3 className="text-xl font-semibold mb-4 opacity-70">Follow Us</h3>
-          <p className="text-gray-300 text-md leading-relaxed mb-4">
-            Stay connected through our social platforms.
-          </p>
-          <div className="flex space-x-4">
-            {[
-              { icon: FaFacebookF, label: "Facebook" },
-              { icon: FaInstagram, label: "Instagram" },
-              { icon: FaLinkedinIn, label: "LinkedIn" },
-            ].map(({ icon: Icon, label }) => (
-              <a
-                key={label}
-                href="#"
-                className="text-gray-300 hover:text-blue-400 transition-colors text-xl"
-                aria-label={label}
-              >
-                <Icon />
-              </a>
-            ))}
-          </div>
-        </div>
+{/* Social Media Section */}
+<div>
+  <h3 className="text-xl font-semibold mb-4 opacity-70">Follow Us</h3>
+  <p className="text-gray-300 text-md leading-relaxed mb-4">
+    Stay connected through our social platforms.
+  </p>
+  <div className="flex space-x-3">
+    {[
+      { icon: FaFacebookF, label: "Facebook" },
+      { icon: FaGithub, label: "github" },
+      { icon: FaLinkedinIn, label: "LinkedIn" },
+    ].map(({ icon: Icon, label }) => (
+      <a
+        key={label}
+        href="#"
+        className="flex items-center justify-center w-10 h-10 border-2 border-white rounded-md text-white transition duration-300 hover:bg-blue-500 hover:text-white"
+        aria-label={label}
+      >
+        <Icon className="text-xl" />
+      </a>
+    ))}
+  </div>
+</div>
+
+
       </div>
 
       {/* Copyright Section */}

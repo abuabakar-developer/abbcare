@@ -15,11 +15,10 @@ import {
   faChild,
   faCapsules,
   faMicroscope,
-  faCalendarAlt,
-  faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
+// Define the specialties
 interface Specialty {
   title: string;
   icon: IconDefinition;
@@ -32,6 +31,31 @@ interface Doctor {
   rating: number;
   imageUrl: string;
 }
+
+const doctorsData: Doctor[] = [
+  { name: 'Dr. Ahmad Al-Sayed', specialty: 'Cardiology', experience: '10 years', rating: 4.8, imageUrl: '/ur1.webp' },
+  { name: 'Dr. Amina Ibrahim', specialty: 'Cardiology', experience: '12 years', rating: 4.9, imageUrl: '/gn1.jpg' },
+  { name: 'Dr. Layla Ahmed', specialty: 'Pediatrics', experience: '7 years', rating: 4.6, imageUrl: '/ab3.webp' },
+  { name: 'Dr. Yusuf Al-Mansoor', specialty: 'Orthopedics', experience: '15 years', rating: 4.9, imageUrl: '/g4.webp' },
+  { name: 'Dr. Zain', specialty: 'Pharmacology', experience: '9 years', rating: 4.7, imageUrl: '/dn2.jpg' },
+  { name: 'Dr. Khalid Al-Farsi', specialty: 'Pharmacology', experience: '11 years', rating: 4.8, imageUrl: '/gf3.jpg' },
+  { name: 'Dr. Mariam Al-Hassan', specialty: 'Orthopedics', experience: '10 years', rating: 4.7, imageUrl: '/ab.webp' },
+  { name: 'Dr. Ameen -ul Hasan', specialty: 'Pathology', experience: '10 years', rating: 4.7, imageUrl: '/ab3.jpg' },
+  { name: 'Dr. Mariam Al-Hassan', specialty: 'Pediatrics', experience: '10 years', rating: 4.7, imageUrl: '/ab.webp' },
+  { name: 'Dr. Mariam Al-Hassan', specialty: 'Ophthalmology', experience: '10 years', rating: 4.7, imageUrl: '/ab.webp' },
+  { name: 'Dr. Mariam Al-Hassan', specialty: 'Ophthalmology', experience: '10 years', rating: 4.7, imageUrl: '/opth.jpg' },
+  { name: 'Dr. Mariam Al-Hassan', specialty: 'Dentistry', experience: '10 years', rating: 4.7, imageUrl: '/ab.webp' },
+  { name: 'Dr. Mariam Al-Hassan', specialty: 'Dentistry', experience: '10 years', rating: 4.7, imageUrl: '/ab.webp' },
+  { name: 'Dr. Sadeeq', specialty: 'Pathology', experience: '10 years', rating: 4.7, imageUrl: '/dn3.avif' },
+  { name: 'Dr. Mariam Al-Hassan', specialty: 'Orthopedics', experience: '10 years', rating: 4.7, imageUrl: '/ab.webp' },
+  { name: 'Dr. Mariam Al-Hassan', specialty: 'Neurology', experience: '10 years', rating: 4.7, imageUrl: '/ab.webp' },
+  { name: 'Dr. Mariam Al-Hassan', specialty: 'Neurology', experience: '10 years', rating: 4.7, imageUrl: '/ab.webp' },
+  { name: 'Dr. Iqrar Raza', specialty: 'Pulmonology', experience: '10 years', rating: 4.7, imageUrl: '/ur2.avif' },
+  { name: 'Dr. Talha Muneer', specialty: 'Pulmonology', experience: '10 years', rating: 4.7, imageUrl: '/ur1.webp' },
+  { name: 'Dr. Tassawar Hayat', specialty: 'Dermatology', experience: '10 years', rating: 4.7, imageUrl: '/dn2.jpg' },
+  { name: 'Dr. Ubaid Shah', specialty: 'Dermatology', experience: '10 years', rating: 4.7, imageUrl: '/gf3.jpg' },
+];
+
 
 const specialties: Specialty[] = [
   { title: 'Cardiology', icon: faHeartPulse },
@@ -49,35 +73,20 @@ const specialties: Specialty[] = [
 const DoctorsPage: React.FC = () => {
   const router = useRouter();
   const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const doctorsRef = useRef<HTMLDivElement | null>(null);
 
-  // Updated type for the ref
-  const doctorsSectionRef = useRef<HTMLDivElement | null>(null);
-
-  const fetchDoctors = async (specialty: string) => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/doctors?specialty=${specialty}`);
-      const data = await response.json();
-      setDoctors(data);
-    } catch (error) {
-      console.error('Failed to fetch doctors', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Filter doctors based on selected specialty
+  const filteredDoctors = selectedSpecialty
+    ? doctorsData.filter((doctor) => doctor.specialty === selectedSpecialty)
+    : [];
 
   const handleSpecialtyClick = (specialty: string) => {
     setSelectedSpecialty(specialty);
-    fetchDoctors(specialty);
 
-    if (doctorsSectionRef.current) {
-      doctorsSectionRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    }
+    // Scroll to doctors section
+    setTimeout(() => {
+      doctorsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 200);
   };
 
   const handleBookAppointment = (doctorName: string) => {
@@ -93,6 +102,7 @@ const DoctorsPage: React.FC = () => {
         </p>
       </div>
 
+      {/* Specialties Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {specialties.map((specialty, index) => (
           <div
@@ -110,53 +120,35 @@ const DoctorsPage: React.FC = () => {
         ))}
       </div>
 
-      <div ref={doctorsSectionRef} className="mt-12">
-        {loading && <p className="text-center text-blue-500">Loading doctors...</p>}
-
-        {!loading && doctors.length > 0 && selectedSpecialty && (
-          <div>
-            <h2 className="text-center text-2xl font-semibold mb-4">
-              {doctors.length} Doctor(s) Found for {selectedSpecialty}
+      {/* Doctors List */}
+      <div ref={doctorsRef} className="mt-12">
+        {selectedSpecialty && (
+          <>
+            <h2 className="text-center text-2xl font-semibold mb-6">
+              {filteredDoctors.length} Doctor(s) Found for {selectedSpecialty}
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {doctors.map((doctor, index) => (
-                <div
-                  key={index}
-                  className="relative group p-6 bg-white shadow-lg rounded-lg overflow-hidden transition-transform duration-300 transform hover:-translate-y-2"
-                >
-                  <Image
-                    src={doctor.imageUrl}
-                    alt={doctor.name}
-                    width={96}
-                    height={96}
-                    className="rounded-full mx-auto mb-4"
-                  />
-                  <h4 className="text-center text-xl font-bold">{doctor.name}</h4>
-                  <p className="text-center text-gray-600">{doctor.experience} Experience</p>
-                  <p className="text-center text-yellow-500">⭐ {doctor.rating}</p>
-
-                  <div className="absolute inset-0 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50">
+            {filteredDoctors.length === 0 ? (
+              <p className="text-center text-gray-600">No doctors available for this specialty.</p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredDoctors.map((doctor, index) => (
+                  <div key={index} className="p-6 bg-white shadow-lg rounded-lg text-center">
+                    <Image src={doctor.imageUrl} alt={doctor.name} width={150} height={150} className="rounded-full mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold">{doctor.name}</h3>
+                    <p className="text-gray-600">{doctor.experience} experience</p>
+                    <p className="text-yellow-500">⭐ {doctor.rating}</p>
                     <button
                       onClick={() => handleBookAppointment(doctor.name)}
-                      className="bg-blue-500 text-white p-2 rounded-full mx-2"
+                      className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition"
                     >
-                      <FontAwesomeIcon icon={faCalendarAlt} className="text-xl" />
-                    </button>
-                    <button className="bg-green-500 text-white p-2 rounded-full mx-2">
-                      <FontAwesomeIcon icon={faInfoCircle} className="text-xl" />
+                      Book Appointment
                     </button>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {!loading && doctors.length === 0 && selectedSpecialty && (
-          <p className="text-center text-gray-600">
-            No doctors found for {selectedSpecialty}.
-          </p>
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </section>
@@ -164,4 +156,7 @@ const DoctorsPage: React.FC = () => {
 };
 
 export default DoctorsPage;
+
+
+
 

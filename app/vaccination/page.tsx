@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 const VaccinationServices = () => {
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-12 bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Heading */}
       <h1 className="text-5xl font-extrabold text-center text-green-800 leading-tight tracking-wide mb-10">
         Abcare Vaccination Services

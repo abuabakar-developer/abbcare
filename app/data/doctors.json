@@ -1,0 +1,143 @@
+[
+    {
+      "name": "Dr. Ahmad Al-Sayed",
+      "specialty": "Cardiology",
+      "experience": "10 years",
+      "rating": 4.8,
+      "imageUrl": "/ur1.webp"
+    },
+    {
+      "name": "Dr. Amina Ibrahim",
+      "specialty": "Cardiology",
+      "experience": "12 years",
+      "rating": 4.9,
+      "imageUrl": "/dn1.webp"
+    },
+    {
+      "name": "Dr. Bilal Malik",
+      "specialty": "Pharmacology",
+      "experience": "8 years",
+      "rating": 4.7,
+      "imageUrl": "/ab2.webp"
+    },
+    {
+      "name": "Dr. Layla Ahmed",
+      "specialty": "Pediatrics",
+      "experience": "7 years",
+      "rating": 4.6,
+      "imageUrl": "/ab3.webp"
+    },
+    {
+      "name": "Dr. Yusuf Al-Mansoor",
+      "specialty": "Orthopedics",
+      "experience": "15 years",
+      "rating": 4.9,
+      "imageUrl": "/g4.webp"
+    },
+    {
+      "name": "Dr. Fatima Zain",
+      "specialty": "Pharmacology",
+      "experience": "9 years",
+      "rating": 4.7,
+      "imageUrl": "/dn2.jpg"
+    },
+    {
+      "name": "Dr. Khalid Al-Farsi",
+      "specialty": "Pathology",
+      "experience": "11 years",
+      "rating": 4.8,
+      "imageUrl": "/gf3.jpg"
+    },
+    {
+      "name": "Dr. Mariam Al-Hassan",
+      "specialty": "Pathology",
+      "experience": "10 years",
+      "rating": 4.7,
+      "imageUrl": "/ab.webp"
+    },
+    {
+      "name": "Dr. Ibrahim Saeed",
+      "specialty": "Pediatrics",
+      "experience": "6 years",
+      "rating": 4.6,
+      "imageUrl": "/ur2.avif"
+    },
+    {
+      "name": "Dr. Zainab Khamis",
+      "specialty": "Dermatology",
+      "experience": "8 years",
+      "rating": 4.5,
+      "imageUrl": "/gn4.jpg"
+    },
+    {
+      "name": "Dr. Omar Al-Karim",
+      "specialty": "Orthopedics",
+      "experience": "14 years",
+      "rating": 4.9,
+      "imageUrl": "/ab1.webp"
+    },
+    {
+      "name": "Dr. Samira Khan",
+      "specialty": "Cardiology",
+      "experience": "9 years",
+      "rating": 4.8,
+      "imageUrl": "/gf3.jpg"
+    },
+    {
+      "name": "Dr. Ahmed Farouk",
+      "specialty": "Neurology",
+      "experience": "13 years",
+      "rating": 4.9,
+      "imageUrl": "/gf.webp"
+    },
+    {
+      "name": "Dr. Yasmin Al-Mubarak",
+      "specialty": "Pediatrics",
+      "experience": "5 years",
+      "rating": 4.5,
+      "imageUrl": "/g4.webp"
+    },
+    {
+      "name": "Dr. Faisal Khan",
+      "specialty": "Orthopedics",
+      "experience": "16 years",
+      "rating": 4.9,
+      "imageUrl": "/ab3.jpg"
+    },
+    {
+      "name": "Dr. Huda Al-Jabari",
+      "specialty": "Dermatology",
+      "experience": "10 years",
+      "rating": 4.8,
+      "imageUrl": "/dn2.jpg"
+    },
+    {
+      "name": "Dr. Tariq Al-Hariri",
+      "specialty": "Pulmonology",
+      "experience": "8 years",
+      "rating": 4.7,
+      "imageUrl": "/dn1.webp"
+    },
+    {
+      "name": "Dr. Khadija Al-Amin",
+      "specialty": "Pulmonology",
+      "experience": "6 years",
+      "rating": 4.6,
+      "imageUrl": "/ur2.avif"
+    },
+    {
+      "name": "Dr. Rania Youssef",
+      "specialty": "Dentistry",
+      "experience": "12 years",
+      "rating": 4.8,
+      "imageUrl": "/ab2.webp"
+    },
+    {
+      "name": "Dr. Nadirah Ali",
+      "specialty": "Dentistry",
+      "experience": "7 years",
+      "rating": 4.5,
+      "imageUrl": "/ab1.webp"
+    }
+  ]
+  

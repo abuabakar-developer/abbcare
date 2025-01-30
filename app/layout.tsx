@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import ServicesSection from "./components/ServicesSection";
+import TeleClinicHeroSection from "./components/TeleClinicHeroSection";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
       >
       <Header />
         <Navbar />
+        <TeleClinicHeroSection />
        <ServicesSection />
 
         {/* Main content from page.tsx */}

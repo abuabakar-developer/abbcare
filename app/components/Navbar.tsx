@@ -25,6 +25,14 @@ const Navbar = () => {
     setIsLoggedIn(false);
     router.push('/login');
   };
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    const section = document.getElementById('about-us');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+  
 
   return (
     <>
@@ -114,7 +122,7 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-            <Link href="/doctors" className="hover:text-blue-600 transition">
+            <Link href="/#about-us" onClick={handleScroll} className="hover:text-blue-600 transition">
               About Us
             </Link>
             <Link href="/doctors" className="hover:text-blue-600 transition">
