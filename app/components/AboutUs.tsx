@@ -83,16 +83,17 @@ const AboutUs = () => {
             </p>
           </div>
 
-          {/* Right Content: Now visible on mobile */}
-          <div className="lg:w-1/2 mt-8 lg:mt-0">
-            <Image
-              src="/abtua.jpg"
-              alt="Why Us"
-              width={500}
-              height={300}
-              className="w-full h-auto rounded-xl shadow-lg object-cover hover:scale-105 transition-transform duration-300"
-            />
-          </div>
+{/* Right Content: Responsive Image */}
+<div className="w-full lg:w-1/2 mt-8 lg:mt-0">
+  <Image
+    src="/abtua.jpg"
+    alt="Why Us"
+    width={500}
+    height={300}
+    className="w-full h-auto rounded-xl shadow-lg object-cover hover:scale-105 transition-transform duration-300"
+  />
+</div>    
+
         </div>
       </div>
 
