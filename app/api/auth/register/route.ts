@@ -1,32 +1,18 @@
 import bcrypt from 'bcryptjs';
 import dbConnect from '@/utils/dbConnect';
-import mongoose from 'mongoose';
-
-// Define the user schema
-const userSchema = new mongoose.Schema({
-  firstName: String,
-  lastName: String,
-  email: { type: String, unique: true },
-  password: String,
-  phone: String,
-  dateOfBirth: Date,
-  createdAt: { type: Date, default: Date.now },
-});
-
-// Create or reuse the user model
-const User = mongoose.models.User || mongoose.model('User', userSchema);
+import User from '@/models/User'; // Ensure this path is correct
 
 export async function POST(req: Request) {
   try {
     // Parse request body
-    const { firstName, lastName, email, password, phone, dateOfBirth } = await req.json();
+    const { firstName, lastName, email, password } = await req.json();
 
     // Validate request body
-    if (!firstName || !lastName || !email || !password || !phone || !dateOfBirth) {
+    if (!firstName || !lastName || !email || !password) {
       return new Response(JSON.stringify({ error: 'All fields are required' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
-      });
+      }); 
     }
 
     // Connect to MongoDB
@@ -50,8 +36,6 @@ export async function POST(req: Request) {
       lastName,
       email,
       password: hashedPassword,
-      phone,
-      dateOfBirth,
     });
 
     // Save the user to the database
@@ -69,7 +53,6 @@ export async function POST(req: Request) {
     });
   }
 }
-
 
 
 
