@@ -9,10 +9,10 @@ export async function GET() {
     await dbConnect();
     const appointments = await Appointment.find({});
     
-    return NextResponse.json(appointments, { status: 200 });
+    return NextResponse.json({ success: true, data: appointments }, { status: 200 });
   } catch (error) {
     console.error("Error fetching appointments:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
   }
 }
 
@@ -22,12 +22,16 @@ export async function POST(req: Request) {
     const body = await req.json();
     await dbConnect();
 
+    if (!body.fullName || !body.cnic || !body.dateOfBirth || !body.age || !body.email || !body.contact || !body.service) {
+      return NextResponse.json({ success: false, error: "Missing required fields" }, { status: 400 });
+    }
+
     const newAppointment = await Appointment.create(body);
-    
-    return NextResponse.json(newAppointment, { status: 201 });
+
+    return NextResponse.json({ success: true, data: newAppointment, id: newAppointment._id }, { status: 201 });
   } catch (error) {
     console.error("Error creating appointment:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
   }
 }
 
@@ -39,26 +43,25 @@ export async function PATCH(req: Request) {
     const { status } = await req.json();
 
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-      return NextResponse.json({ error: "Invalid or missing appointment ID" }, { status: 400 });
+      return NextResponse.json({ success: false, error: "Invalid or missing appointment ID" }, { status: 400 });
     }
 
     if (!status || !["scheduled", "pending", "canceled"].includes(status)) {
-      return NextResponse.json({ error: "Invalid status value" }, { status: 400 });
+      return NextResponse.json({ success: false, error: "Invalid status value" }, { status: 400 });
     }
 
     await dbConnect();
     const updatedAppointment = await Appointment.findByIdAndUpdate(id, { status }, { new: true });
 
     if (!updatedAppointment) {
-      return NextResponse.json({ error: "Appointment not found" }, { status: 404 });
+      return NextResponse.json({ success: false, error: "Appointment not found" }, { status: 404 });
     }
 
-    return NextResponse.json(updatedAppointment, { status: 200 });
+    return NextResponse.json({ success: true, data: updatedAppointment }, { status: 200 });
   } catch (error) {
     console.error("Error updating appointment:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
   }
 }
-
 
 

@@ -42,6 +42,14 @@ export default function LabPage() {
           >
             {showTests ? "Hide Lab Tests" : "View Lab Tests"}
           </button>
+
+          {/* Call Now Button */}
+          <a
+            href="tel:+923154195240"
+            className="bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg mt-6 block max-w-xs mx-auto hover:bg-green-700 transition ease-in-out duration-300"
+          >
+            Call Now: 03154195240
+          </a>
         </section>
 
         {/* Lab Test List - Shows when the button is clicked */}

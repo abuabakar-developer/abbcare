@@ -1,4 +1,4 @@
-'use client';
+ 'use client';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -145,16 +145,18 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden">
-            <button
-              className="text-gray-800 hover:text-blue-600 focus:outline-none"
-              onClick={toggleMenu}
-            >
-              {menuOpen ? <IoMdClose size={28} /> : <FiMenu size={28} />}
-            </button>
-          </div>
-        </div>
+{/* Mobile Menu Button */}
+<div className="lg:hidden">
+  <button
+    className={`relative flex items-center justify-center w-12 h-12 border border-gray-400 rounded-lg shadow-md transition-all duration-300 ease-in-out
+      ${menuOpen ? 'bg-gray-200 border-gray-600' : 'bg-white'}
+    `}
+    onClick={toggleMenu}
+  >
+    {menuOpen ? <IoMdClose size={28} className="text-gray-800" /> : <FiMenu size={28} className="text-gray-800" />}
+  </button>
+</div>
+</div>
 
         {/* Mobile Menu */}
         {menuOpen && (
@@ -259,3 +261,7 @@ const Navbar = () => {
 };                 
 
 export default Navbar;
+
+
+
+

@@ -1,4 +1,3 @@
-// app/tele/page.tsx
 import Image from 'next/image';
 import React from 'react';
 
@@ -6,8 +5,8 @@ const TeleClinicPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center font-sans mb-4">
       {/* Header */}
-      <header className="w-full pt-10 mt-10 py-10 bg-gray-50">
-        <h1 className="text-gray-700 text-center text-5xl md:text-6xl font-extrabold tracking-wide">
+      <header className="w-full pt-16 lg:pt-24 pb-8 bg-gray-50">
+        <h1 className="text-gray-700 text-center text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-wide">
           ABCare Tele Clinics
         </h1>
       </header>
@@ -23,8 +22,8 @@ const TeleClinicPage = () => {
             className="rounded-2xl shadow-xl hover:scale-105 transition-all duration-300 ease-in-out"
           />
         </div>
-        <h2 className="text-center text-4xl md:text-5xl font-semibold text-gray-800 mt-8 leading-tight tracking-wide">
-          Quality Telemedicine Services at Your Fingertips
+        <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-semibold text-gray-800 mt-8 leading-tight tracking-wide">
+          Quality Telemedicine 
         </h2>
         <p className="text-center text-lg md:text-xl lg:text-2xl text-gray-600 mt-4 max-w-3xl mx-auto leading-relaxed">
           Consult with doctors, book appointments, and manage your health from the comfort of your home. Experience healthcare in a whole new way.
@@ -33,11 +32,13 @@ const TeleClinicPage = () => {
 
       {/* Services Section */}
       <section className="mt-12 w-full max-w-screen-xl mx-auto px-6 md:px-12">
-        <h2 className="text-center text-3xl md:text-4xl font-bold text-gray-800 tracking-wide">Our Services</h2>
+        <h2 className="text-center text-3xl md:text-4xl font-bold text-gray-800 tracking-wide">
+          Our Services
+        </h2>
         <p className="text-center text-lg md:text-xl text-gray-600 mt-4 leading-relaxed">
           At ABCare Tele Clinics, we bring healthcare to your doorstep. Here are the services we offer:
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
           {[
             'Home lab sample collection',
             'Home medicine delivery',
@@ -66,8 +67,10 @@ const TeleClinicPage = () => {
 
       {/* Why Choose ABCare */}
       <section className="mt-12 w-full max-w-screen-xl mx-auto px-6 md:px-12">
-        <h2 className="text-center text-3xl md:text-4xl font-bold text-gray-800">Why Choose ABCare?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <h2 className="text-center text-3xl md:text-4xl font-bold text-gray-800">
+          Why Choose ABCare?
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
           {[
             'Experienced and certified doctors',
             'Affordable and transparent pricing',
@@ -87,8 +90,10 @@ const TeleClinicPage = () => {
 
       {/* How to Book an Appointment */}
       <section className="mt-12 w-full max-w-screen-xl mx-auto px-6 md:px-12">
-        <h2 className="text-center text-3xl md:text-4xl font-bold text-gray-800">How to Book an Appointment?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <h2 className="text-center text-3xl md:text-4xl font-bold text-gray-800">
+          How to Book an Appointment?
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
           {[
             'Visit our website and log in to your account.',
             'Choose the service you require.',
@@ -121,3 +126,6 @@ const TeleClinicPage = () => {
 };
 
 export default TeleClinicPage;
+
+
+

@@ -5,26 +5,26 @@ import Image from "next/image";
 
 const RehabilitationServices = () => {
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 py-12 bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="w-full px-6 sm:px-12 lg:px-20 py-16 bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Heading */}
-      <h1 className="text-5xl font-extrabold text-center text-green-800 leading-tight tracking-wide mb-10">
+      <h1 className="text-5xl sm:text-6xl font-extrabold text-center text-green-800 leading-tight tracking-wide mb-12">
         Abcare Home Rehabilitation Services
       </h1>
 
       {/* Content about rehabilitation */}
-      <p className="text-lg text-gray-700 text-center leading-relaxed tracking-wide mb-12 max-w-3xl mx-auto">
+      <p className="text-lg sm:text-xl text-gray-700 text-center leading-relaxed tracking-wide mb-14 max-w-4xl mx-auto">
         At Abcare, we provide exceptional home rehabilitation services tailored to meet diverse needs. Our dedicated
         professionals ensure a faster, more comfortable recovery process, all from the comfort of your home.
       </p>
 
       {/* Services Section */}
-      <section className="mt-16 lg:flex lg:space-x-12">
+      <section className="mt-16 lg:flex lg:items-center lg:space-x-16">
         {/* Bullet Points */}
         <div className="lg:w-1/2">
-          <h2 className="text-4xl font-bold text-green-700 mb-6 tracking-wide">
+          <h2 className="text-4xl font-bold text-green-700 mb-8 tracking-wide">
             Our Specialized Services
           </h2>
-          <ul className="list-disc pl-6 space-y-6 text-gray-800 text-lg leading-loose">
+          <ul className="list-disc pl-8 space-y-5 text-gray-800 text-lg sm:text-xl leading-relaxed">
             <li>
               <span className="font-semibold">Home Physiotherapy:</span> Comprehensive care to restore movement and
               functionality.
@@ -44,7 +44,7 @@ const RehabilitationServices = () => {
         </div>
 
         {/* Image */}
-        <div className="lg:w-1/2 flex justify-center items-center mt-8 lg:mt-0">
+        <div className="lg:w-1/2 flex justify-center items-center mt-10 lg:mt-0">
           <Image
             src="/ph.webp"
             alt="Rehabilitation Services"
@@ -89,10 +89,10 @@ const RehabilitationServices = () => {
 
       {/* Why Choose Abcare */}
       <section className="mt-20">
-        <h2 className="text-4xl font-semibold text-green-700 mb-8 tracking-wide">
+        <h2 className="text-4xl font-semibold text-green-700 mb-8 tracking-wide text-center lg:text-left">
           Why Choose Abcare?
         </h2>
-        <ul className="list-disc pl-6 space-y-6 text-gray-800 text-lg leading-loose">
+        <ul className="list-disc pl-8 space-y-5 text-gray-800 text-lg sm:text-xl leading-relaxed">
           <li>
             <span className="font-semibold">Highly Experienced Professionals:</span> Compassionate experts dedicated to
             your well-being.
@@ -113,7 +113,7 @@ const RehabilitationServices = () => {
 
       {/* Call Button */}
       <div className="mt-16 text-center">
-        <button className="bg-gradient-to-r from-green-500 to-green-700 text-white text-lg py-4 px-10 rounded-lg shadow-md hover:from-green-600 hover:to-green-800 focus:outline-none focus:ring-4 focus:ring-green-400 focus:ring-offset-2 transform hover:scale-105 transition duration-300">
+        <button className="bg-gradient-to-r from-green-500 to-green-700 text-white text-lg sm:text-xl py-4 px-12 rounded-lg shadow-lg hover:from-green-600 hover:to-green-800 focus:outline-none focus:ring-4 focus:ring-green-400 focus:ring-offset-2 transform hover:scale-110 transition duration-300">
           Call Now: 03154195240
         </button>
       </div>
@@ -122,4 +122,3 @@ const RehabilitationServices = () => {
 };
 
 export default RehabilitationServices;
-

@@ -37,12 +37,12 @@ const AboutUs = () => {
         'Order essential medical supplies such as wheelchairs, walkers, and oxygen cylinders with a few clicks. Our Home Medical Supplies service ensures timely delivery of high-quality products to support your healthcare journey.',
     },
   ];
-  
+
   return (
     <div id='about-us' className="bg-gray-50 py-16 px-6 lg:px-16">
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        {/* Left Side: Image - Now visible on mobile */}
+        {/* Left Side: Image */}
         <div className="w-full">
           <Image
             src="/abtus.webp"
@@ -50,6 +50,7 @@ const AboutUs = () => {
             width={500}
             height={300}
             className="w-full h-auto rounded-xl shadow-lg object-cover hover:scale-105 transition-transform duration-300"
+            loading="lazy"
           />
         </div>
 
@@ -58,13 +59,13 @@ const AboutUs = () => {
           <h2 className="text-4xl lg:text-6xl font-bold text-gray-800 mb-6 tracking-tight leading-tight">
             About Us
           </h2>
-          <p className="text-lg lg:text-xl text-gray-600 mb-4 leading-relaxed">
+          <p className="text-lg lg:text-xl text-gray-700 mb-4 leading-relaxed">
             We are committed to providing the best healthcare solutions with convenience and care. Our platform enables seamless booking for various medical services, ensuring your health is our priority.
           </p>
-          <p className="text-lg lg:text-xl text-gray-600 mb-6 leading-relaxed">
+          <p className="text-lg lg:text-xl text-gray-700 mb-6 leading-relaxed">
             Our mission is to bridge the gap between patients and healthcare providers through technology and trust.
           </p>
-          <button className="px-8 py-3 text-lg lg:text-xl bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
+          <button className="px-8 py-3 text-lg lg:text-xl bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 hover:scale-105 transition-all duration-300">
             Read More
           </button>
         </div>
@@ -75,25 +76,25 @@ const AboutUs = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between max-w-6xl mx-auto">
           {/* Left Content */}
           <div className="lg:w-1/2 text-left">
-            <p className="text-gray-700 text-lg lg:text-xl leading-relaxed">
+            <p className="text-gray-800 text-lg lg:text-xl leading-relaxed">
               Our platform is built on the foundation of trust, technology, and unparalleled service. Whether you need medicines, diagnostic tests, or home-based healthcare solutions, we are here to simplify the process for you.
             </p>
-            <p className="text-gray-700 text-lg lg:text-xl leading-relaxed mt-6">
+            <p className="text-gray-800 text-lg lg:text-xl leading-relaxed mt-6">
               By combining expert care with cutting-edge technology, we ensure that every interaction you have with us is seamless and stress-free. Our goal is to empower individuals and families to take charge of their health with confidence.
             </p>
           </div>
 
-{/* Right Content: Responsive Image */}
-<div className="w-full lg:w-1/2 mt-8 lg:mt-0">
-  <Image
-    src="/abtua.jpg"
-    alt="Why Us"
-    width={500}
-    height={300}
-    className="w-full h-auto rounded-xl shadow-lg object-cover hover:scale-105 transition-transform duration-300"
-  />
-</div>    
-
+          {/* Right Content: Responsive Image */}
+          <div className="w-full lg:w-1/2 mt-8 lg:mt-0">
+            <Image
+              src="/abtua.jpg"
+              alt="Why Us"
+              width={500}
+              height={300}
+              className="w-full h-auto rounded-xl shadow-lg object-cover hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+            />
+          </div>
         </div>
       </div>
 
@@ -103,7 +104,7 @@ const AboutUs = () => {
           <h3 className="text-4xl lg:text-5xl font-semibold text-gray-800 mb-6 text-center">
             Why Choose Us?
           </h3>
-          <p className="text-lg lg:text-xl text-gray-600 mb-10 text-center leading-relaxed">
+          <p className="text-lg lg:text-xl text-gray-700 mb-10 text-center leading-relaxed">
             We prioritize your health by connecting you with trusted professionals and facilities for every healthcare need. Experience personalized care and quick access to services with us.
           </p>
           <div className="space-y-6">
@@ -116,12 +117,12 @@ const AboutUs = () => {
                   <span className={`${activeSection === index ? 'text-blue-600' : 'text-blue-800'} transition-colors`}>
                     {service.title}
                   </span>
-                  <span className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all ${activeSection === index ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-gray-300 text-gray-800 hover:bg-gray-100'}`}>
-                    {activeSection === index ? <FaMinus /> : <FaPlus />}
+                  <span className={`flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all ${activeSection === index ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-gray-300 text-gray-800 hover:bg-gray-100'}`}>
+                    {activeSection === index ? <FaMinus size={20} /> : <FaPlus size={20} />}
                   </span>
                 </button>
                 {activeSection === index && (
-                  <p className="mt-4 text-gray-700 text-lg lg:text-xl leading-loose">
+                  <p className="mt-4 text-gray-800 text-lg lg:text-xl leading-loose">
                     {service.content}
                   </p>
                 )}
@@ -135,5 +136,4 @@ const AboutUs = () => {
 };
 
 export default AboutUs;
-
 
