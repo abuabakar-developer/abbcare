@@ -8,7 +8,7 @@ const MotherCarePage = () => {
     <div className="w-full px-6 sm:px-12 lg:px-20 py-16 bg-gradient-to-br from-gray-900 to-gray-800 text-gray-200">
       {/* Heading */}
       <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-green-400 leading-tight tracking-wide mb-10">
-        ABCare Mother & Baby Care
+        ABCare Mother and & Baby Care
       </h1>
 
       {/* Description */}
