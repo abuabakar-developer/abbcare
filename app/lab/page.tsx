@@ -1,76 +1,80 @@
-'use client';
-import { useState } from 'react';
-import Image from 'next/image';
+"use client";
 
-export default function LabPage() {
-  const [showTests, setShowTests] = useState(false);
+import React from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
-  const labTests = [
-    { id: 1, name: "Complete Blood Count (CBC)", price: "$25", description: "Checks overall health and detects a variety of disorders." },
-    { id: 2, name: "Lipid Profile", price: "$30", description: "Measures cholesterol and triglycerides to assess heart health." },
-    { id: 3, name: "Liver Function Test", price: "$40", description: "Evaluates liver health and function." },
-    { id: 4, name: "Thyroid Function Test", price: "$35", description: "Checks thyroid hormone levels." },
-    { id: 5, name: "Diabetes Test (HbA1c)", price: "$28", description: "Measures blood sugar levels over the past 3 months." },
-  ];
-
+const LabPage = () => {
   return (
-    <div className="bg-gray-50 min-h-screen py-12 px-6">
-      {/* Container */}
-      <div className="max-w-7xl mx-auto space-y-10">
-        
-        {/* Hero Section */}
-        <section className="relative text-center space-y-4">
-          <h1 className="text-5xl font-extrabold text-gray-900">Welcome to Abcare Lab</h1>
+    <div className="w-full px-6 sm:px-12 lg:px-20 py-16 bg-gradient-to-br from-gray-900 to-gray-800 text-gray-200">
+      {/* Heading */}
+      <motion.h1 
+        initial={{ opacity: 0, y: -50 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 0.8 }}
+        className="text-4xl sm:text-5xl font-extrabold text-center text-green-400 leading-tight tracking-wide mb-10"
+      >
+        ABCare Lab Services
+      </motion.h1>
 
-          <div className="relative">
-            <Image src="/lb.webp" alt="Abcare Lab" width={1200} height={600} className="rounded-lg shadow-lg object-cover" />
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-lg">
-              <h2 className="text-4xl font-semibold text-white">Trusted Diagnostics for Better Health</h2>
-            </div>
-          </div>
+      {/* Description */}
+      <motion.p 
+        initial={{ opacity: 0, x: -50 }} 
+        animate={{ opacity: 1, x: 0 }} 
+        transition={{ duration: 1 }}
+        className="text-lg sm:text-xl text-gray-300 text-center leading-relaxed tracking-wide mb-12 max-w-4xl mx-auto"
+      >
+        Get accurate and reliable lab tests with ABCare Lab. Our cutting-edge technology ensures fast and precise diagnostics for your health needs.
+      </motion.p>
 
-          <h3 className="text-3xl font-medium text-gray-800">
-            Your Trusted Partner for Comprehensive Health Tests
-          </h3>
-        </section>
+      {/* Services Section */}
+      <section className="mt-12 lg:flex lg:items-center lg:space-x-12">
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }} 
+          animate={{ opacity: 1, x: 0 }} 
+          transition={{ duration: 1 }}
+          className="lg:w-1/2"
+        >
+          <h2 className="text-3xl font-semibold text-green-300 mb-6 tracking-wide">Our Lab Services</h2>
+          <ul className="list-disc pl-8 space-y-4 text-gray-300 text-lg leading-relaxed">
+            <li><span className="font-semibold text-green-400">Complete Blood Count (CBC):</span> Detects various health conditions.</li>
+            <li><span className="font-semibold text-green-400">Lipid Profile:</span> Evaluates cholesterol and triglycerides.</li>
+            <li><span className="font-semibold text-green-400">Liver Function Test:</span> Checks liver health and function.</li>
+            <li><span className="font-semibold text-green-400">Thyroid Function Test:</span> Assesses thyroid hormone levels.</li>
+            <li><span className="font-semibold text-green-400">Diabetes Test (HbA1c):</span> Measures long-term blood sugar levels.</li>
+          </ul>
+        </motion.div>
 
-        {/* Call to Action */}
-        <section className="text-center space-y-4">
-          <button 
-            onClick={() => setShowTests(!showTests)}
-            className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition ease-in-out duration-300"
-          >
-            {showTests ? "Hide Lab Tests" : "View Lab Tests"}
-          </button>
+        {/* Image */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }} 
+          animate={{ opacity: 1, scale: 1 }} 
+          transition={{ duration: 1 }}
+          className="lg:w-1/2 flex justify-center items-center mt-10 lg:mt-0"
+        >
+          <Image
+            src="/lb.webp"
+            alt="Lab Services"
+            width={700}
+            height={400}
+            className="rounded-lg shadow-2xl lg:max-h-[350px] transform hover:scale-105 transition duration-300 hover:shadow-green-500"
+          />
+        </motion.div>
+      </section>
 
-          {/* Call Now Button */}
-          <a
-            href="tel:+923154195240"
-            className="bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg mt-6 block max-w-xs mx-auto hover:bg-green-700 transition ease-in-out duration-300"
-          >
-            Call Now: 03154195240
-          </a>
-        </section>
-
-        {/* Lab Test List - Shows when the button is clicked */}
-        {showTests && (
-          <section className="space-y-8 p-6 bg-white shadow-lg rounded-lg">
-            <h2 className="text-3xl font-semibold text-gray-900 text-center">Available Lab Tests</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {labTests.map((test) => (
-                <div key={test.id} className="bg-blue-50 p-6 rounded-lg shadow-md border border-blue-200 hover:shadow-lg transition">
-                  <h3 className="text-2xl font-semibold text-blue-900">{test.name}</h3>
-                  <p className="text-gray-700">{test.description}</p>
-                  <p className="text-blue-600 font-semibold mt-2">{test.price}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-      </div>
+      {/* Call To Action */}
+      <motion.div 
+        initial={{ opacity: 0, y: 50 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="mt-12 text-center"
+      >
+        <button className="bg-gradient-to-r from-green-500 to-green-700 text-white text-lg py-4 px-12 rounded-lg shadow-lg hover:from-green-600 hover:to-green-800 transform hover:scale-110 transition duration-300">
+          Call Now: 03154195240
+        </button>
+      </motion.div>
     </div>
   );
-}
+};
 
-
+export default LabPage;

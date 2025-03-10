@@ -1,11 +1,10 @@
-
 'use client';
-import React, { useState } from 'react'; // Import React for React.createElement
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
+
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { FaUser, FaIdCard, FaCalendarAlt, FaEnvelope, FaPhone, FaCheckCircle } from 'react-icons/fa';
 
-type FormData = {
+interface FormDataType {
   fullName: string;
   cnic: string;
   dateOfBirth: string;
@@ -13,11 +12,13 @@ type FormData = {
   email: string;
   contact: string;
   service: string;
+  selectedDate: string;
+  selectedTime: string;
   equationAnswer: string;
-};
+}
 
 const BookAppointment = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<FormDataType>({
     fullName: '',
     cnic: '',
     dateOfBirth: '',
@@ -25,159 +26,105 @@ const BookAppointment = () => {
     email: '',
     contact: '',
     service: '',
+    selectedDate: '',
+    selectedTime: '',
     equationAnswer: '',
   });
+
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!formData.cnic.match(/^\d{13}$/)) {
-      toast.error('Please enter a valid 13-digit CNIC (without dashes).');
-      return;
-    }
-
-    if (formData.equationAnswer !== '13') {
-      toast.error('Please solve the equation 8 + 5 correctly!');
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/appointments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        toast.success('Appointment successfully booked!');
-        setIsSubmitted(true);
-        router.push(`/onboarding/${result.id}`);
-      } else {
-        throw new Error('Failed to book appointment');
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error('An unknown error occurred');
-      }
-    }
-  };
-
-  const handleAdminRedirect = () => {
-    router.push('/adminpanel');
+    setIsSubmitted(true);
+    setTimeout(() => setIsSubmitted(false), 5000); // Keep the success message for 5 seconds
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 sm:px-8 py-10">
-      <div className="bg-white shadow-xl rounded-3xl p-8 max-w-4xl w-full ring-1 ring-gray-200 hover:ring-indigo-400 transition-transform duration-300 transform hover:scale-105">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-gray-800 mb-6 tracking-wide">
-          Book Your Appointment
-        </h1>
-        <p className="text-center text-gray-600 text-lg sm:text-xl mb-8 leading-relaxed">
-          Fill out the form below to schedule your appointment.It&apos;s quick and hassle-free.
-        </p>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {[
-              { label: 'Full Name', name: 'fullName', type: 'text', icon: FaUser },
-              { label: 'CNIC (without dashes)', name: 'cnic', type: 'text', icon: FaIdCard },
-              { label: 'Date of Birth', name: 'dateOfBirth', type: 'date', icon: FaCalendarAlt },
-              { label: 'Age', name: 'age', type: 'number', icon: null },
-              { label: 'Email', name: 'email', type: 'email', icon: FaEnvelope },
-              { label: 'Contact', name: 'contact', type: 'tel', icon: FaPhone },
-            ].map((field, index) => (
-              <div key={index} className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700">{field.label}</label>
-                <div className="relative">
-                  {field.icon && <field.icon className="absolute left-3 top-3 text-gray-400" />}
-                  <input
-                    type={field.type}
-                    name={field.name}
-                    placeholder={`Enter ${field.label}`}
-                    value={formData[field.name as keyof FormData]}
-                    onChange={handleChange}
-                    required
-                    className={`w-full pl-${field.icon ? '10' : '4'} border border-gray-300 rounded-lg py-3 text-gray-800 focus:ring-indigo-500 focus:border-indigo-500`}
-                  />
-                </div>
-              </div>
-            ))}
-
-            <div className="space-y-1 sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700">Service</label>
-              <select
-                name="service"
-                value={formData.service}
-                onChange={handleChange}
-                required
-                className="w-full border border-gray-300 rounded-lg py-3 text-gray-800 focus:ring-indigo-500 focus:border-indigo-500"
-              >
-                <option value="">Select a Service</option>
-                <option value="Home Lab">Home Lab</option>
-                <option value="Home Physio">Home Physio</option>
-                <option value="Home Pharmacy">Home Pharmacy</option>
-                <option value="Tele Medicine">Tele Medicine</option>
-              </select>
-            </div>
-
-            <div className="space-y-1 sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700">Solve: 8 + 5</label>
-              <input
-                type="text"
-                name="equationAnswer"
-                placeholder="Your Answer"
-                value={formData.equationAnswer}
-                onChange={handleChange}
-                required
-                className="w-full border border-gray-300 rounded-lg py-3 text-gray-800 focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div>
+    <div className="max-w-2xl mx-auto mt-10 p-6 bg-gray-900 rounded-2xl shadow-2xl border border-gray-700">
+      <h2 className="text-white text-2xl font-bold text-center mb-6">Book an Appointment</h2>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {[{ label: 'Full Name', name: 'fullName', type: 'text', icon: FaUser },
+          { label: 'CNIC (without dashes)', name: 'cnic', type: 'text', icon: FaIdCard },
+          { label: 'Date of Birth', name: 'dateOfBirth', type: 'date', icon: FaCalendarAlt },
+          { label: 'Age', name: 'age', type: 'number' },
+          { label: 'Email', name: 'email', type: 'email', icon: FaEnvelope },
+          { label: 'Contact', name: 'contact', type: 'tel', icon: FaPhone }
+        ].map((field, index) => (
+          <div key={index} className="relative group">
+            {field.icon && <field.icon className="absolute left-3 top-3 text-gray-500" />}
+            <input
+              type={field.type}
+              name={field.name}
+              placeholder={field.label}
+              value={formData[field.name as keyof FormDataType]}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-800 text-gray-300 border border-gray-600 rounded-xl py-3 px-4 pl-10 focus:ring-2 focus:ring-green-500 outline-none"
+            />
           </div>
+        ))}
 
-          <div className="flex flex-col sm:flex-row sm:justify-between gap-4 mt-6">
-            <button
-              type="submit"
-              className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-green-500"
-            >
-              Submit
-            </button>
-            <button
-              type="button"
-              onClick={handleAdminRedirect}
-              className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 px-6 rounded-lg font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 flex items-center justify-center"
-            >
-              <FaUser className="mr-2" /> Admin
+        <div>
+          <label className="text-white block mb-1">Select Service</label>
+          <select
+            name="service"
+            value={formData.service}
+            onChange={handleChange}
+            required
+            className="w-full bg-gray-800 text-gray-300 border border-gray-600 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 outline-none"
+          >
+            <option value="">Select a Service</option>
+            <option value="General Checkup">Home Pharmacy</option>
+            <option value="Consultation">Home Lab</option>
+            <option value="Treatment">Home Vaccination</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="text-white block mb-1">Select Date</label>
+          <input type="date" name="selectedDate" value={formData.selectedDate} onChange={handleChange} required className="w-full bg-gray-800 text-gray-300 border border-gray-600 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 outline-none" />
+        </div>
+
+        <div>
+          <label className="text-white block mb-1">Select Time</label>
+          <input type="time" name="selectedTime" value={formData.selectedTime} onChange={handleChange} required className="w-full bg-gray-800 text-gray-300 border border-gray-600 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 outline-none" />
+        </div>
+
+        <div>
+          <label className="text-white block mb-1">Math Verification (2 + 3 = ?)</label>
+          <input type="text" name="equationAnswer" value={formData.equationAnswer} onChange={handleChange} required className="w-full bg-gray-800 text-gray-300 border border-gray-600 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 outline-none" />
+        </div>
+
+        <button type="submit" className="w-full bg-green-600 text-white font-semibold py-3 rounded-xl hover:bg-green-700 transition-all shadow-lg hover:shadow-xl">
+          Submit Appointment
+        </button>
+      </form>
+
+      {isSubmitted && (
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.7 }} 
+          animate={{ opacity: 1, scale: 1 }} 
+          exit={{ opacity: 0, scale: 0.7 }} 
+          transition={{ duration: 0.5 }}
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+        >
+          <div className="bg-gradient-to-r from-green-400 to-green-600 p-6 rounded-xl shadow-xl text-center max-w-xs">
+            <FaCheckCircle className="text-white text-5xl mx-auto mb-4 animate-pulse" />
+            <h3 className="text-white text-2xl font-bold mb-2">Appointment Booked!</h3>
+            <p className="text-white mb-4">We have successfully received your request. Our team will get in touch with you soon!</p>
+            <button onClick={() => setIsSubmitted(false)} className="mt-4 px-6 py-2 bg-white text-green-600 rounded-lg hover:bg-gray-100 transition-all">
+              Close
             </button>
           </div>
-        </form>
-
-        {isSubmitted && (
-          <div className="mt-6 text-center">
-            <FaCheckCircle className="text-green-500 text-4xl mb-3 animate-bounce" />
-            <p className="text-lg text-green-600 font-semibold">
-              Your appointment has been successfully booked!
-            </p>
-          </div>
-        )}
-      </div>
+        </motion.div>
+      )}
     </div>
   );
 };
+
 export default BookAppointment;
-
-                                   
-
-
-

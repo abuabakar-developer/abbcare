@@ -1,7 +1,8 @@
 'use client';
+
 import React, { useState } from 'react';
 import { FaPlus, FaMinus } from 'react-icons/fa';
-import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const AboutUs = () => {
   const [activeSection, setActiveSection] = useState<number | null>(null);
@@ -10,130 +11,100 @@ const AboutUs = () => {
     setActiveSection(activeSection === section ? null : section);
   };
 
-  const services = [
+  const faqs = [
     {
-      title: 'Home Pharmacy Services',
+      title: 'How does Home Pharmacy work?',
       content:
-        'With our Home Pharmacy Services, you can order medications online and get them delivered to your doorstep. We prioritize convenience and reliability, ensuring you never run out of essential medicines. Our service also includes a seamless prescription upload feature, making the process hassle-free.',
+        '💊 Ordering medicine has never been easier! Simply upload your prescription or browse our catalog, place an order, and have it delivered to your doorstep with real-time tracking.',
     },
     {
-      title: 'Home Lab Services',
+      title: 'Can I book lab tests from home?',
       content:
-        'Book diagnostic tests from the comfort of your home. Our trusted network of labs ensures accurate reports delivered digitally. From routine blood tests to specialized diagnostics, our Home Lab Services are designed to prioritize your health and convenience.',
+        '🧪 Yes! Choose from a range of diagnostic tests, schedule a convenient time, and our certified professionals will collect your sample at home. Results will be sent digitally in the shortest possible time.',
     },
     {
-      title: 'Home Vaccination Services',
+      title: 'Are home vaccinations safe?',
       content:
-        'Ensure your family’s health and safety with our Home Vaccination Services. Schedule vaccinations with certified healthcare professionals who administer them in the comfort of your home. Stay protected against preventable diseases with ease.',
+        '💉 Absolutely! Our licensed healthcare professionals ensure that all vaccinations follow strict safety guidelines, maintaining hygiene and proper administration right in the comfort of your home.',
     },
     {
-      title: 'Home Physiotherapy Services',
+      title: 'What types of physiotherapy services are available?',
       content:
-        'Access professional physiotherapy sessions tailored to your needs. Our expert physiotherapists provide customized treatment plans to aid recovery and improve mobility, all from the comfort of your home.',
+        '🏋️ From post-injury rehabilitation to chronic pain management, our expert physiotherapists tailor treatment plans for your needs, ensuring effective recovery and long-term wellness.',
     },
     {
-      title: 'Home Medical Supplies',
+      title: 'Do you provide medical equipment and supplies?',
       content:
-        'Order essential medical supplies such as wheelchairs, walkers, and oxygen cylinders with a few clicks. Our Home Medical Supplies service ensures timely delivery of high-quality products to support your healthcare journey.',
+        '⚕️ Yes, we offer a wide range of medical supplies, including mobility aids, oxygen cylinders, BP monitors, and more, ensuring you have everything needed for home care.',
     },
   ];
 
   return (
-    <div id='about-us' className="bg-gray-50 py-16 px-6 lg:px-16">
-      {/* Hero Section */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        {/* Left Side: Image */}
-        <div className="w-full">
-          <Image
-            src="/abtus.webp"
-            alt="About Us"
-            width={500}
-            height={300}
-            className="w-full h-auto rounded-xl shadow-lg object-cover hover:scale-105 transition-transform duration-300"
-            loading="lazy"
-          />
-        </div>
+    <div id="about-us" className="relative bg-gray-950 text-white py-14 px-4 sm:px-10 lg:px-24">
+      {/* Background Effects */}
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-gray-950 opacity-50 blur-2xl"></div>
 
-        {/* Right Side: Content */}
-        <div className="text-center lg:text-left">
-          <h2 className="text-4xl lg:text-6xl font-bold text-gray-800 mb-6 tracking-tight leading-tight">
-            About Us
-          </h2>
-          <p className="text-lg lg:text-xl text-gray-700 mb-4 leading-relaxed">
-            We are committed to providing the best healthcare solutions with convenience and care. Our platform enables seamless booking for various medical services, ensuring your health is our priority.
-          </p>
-          <p className="text-lg lg:text-xl text-gray-700 mb-6 leading-relaxed">
-            Our mission is to bridge the gap between patients and healthcare providers through technology and trust.
-          </p>
-          <button className="px-8 py-3 text-lg lg:text-xl bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 hover:scale-105 transition-all duration-300">
-            Read More
-          </button>
-        </div>
+      {/* Title Section */}
+      <div className="relative z-10 max-w-4xl mx-auto text-center">
+        <h3 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">
+          Frequently Asked Questions
+        </h3>
+        <p className="mt-3 text-gray-400 text-sm md:text-base">
+          Your questions, answered with clarity and ease.
+        </p>
       </div>
 
-      {/* Why Us Section */}
-      <div className="mt-16 bg-white rounded-xl shadow-lg p-8">
-        <div className="flex flex-col lg:flex-row items-center justify-between max-w-6xl mx-auto">
-          {/* Left Content */}
-          <div className="lg:w-1/2 text-left">
-            <p className="text-gray-800 text-lg lg:text-xl leading-relaxed">
-              Our platform is built on the foundation of trust, technology, and unparalleled service. Whether you need medicines, diagnostic tests, or home-based healthcare solutions, we are here to simplify the process for you.
-            </p>
-            <p className="text-gray-800 text-lg lg:text-xl leading-relaxed mt-6">
-              By combining expert care with cutting-edge technology, we ensure that every interaction you have with us is seamless and stress-free. Our goal is to empower individuals and families to take charge of their health with confidence.
-            </p>
-          </div>
+      {/* FAQ Section */}
+      <div className="relative z-10 max-w-3xl mx-auto mt-10 space-y-4">
+        {faqs.map((faq, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="rounded-xl bg-gradient-to-r from-gray-800 to-gray-900 p-5 shadow-lg border border-gray-700 transition-transform transform hover:scale-[1.02]"
+          >
+            <button
+              className="flex justify-between items-center w-full text-left focus:outline-none transition-all"
+              onClick={() => toggleSection(index)}
+            >
+              <span
+                className={`text-lg font-medium ${
+                  activeSection === index ? 'text-blue-400' : 'text-gray-200'
+                } transition-colors`}
+              >
+                {faq.title}
+              </span>
+              <span
+                className={`w-8 h-8 flex items-center justify-center rounded-full border-2 transition-all ${
+                  activeSection === index
+                    ? 'bg-blue-600 border-blue-600 text-white'
+                    : 'bg-gray-800 border-gray-600 text-gray-300'
+                }`}
+              >
+                {activeSection === index ? <FaMinus size={16} /> : <FaPlus size={16} />}
+              </span>
+            </button>
 
-          {/* Right Content: Responsive Image */}
-          <div className="w-full lg:w-1/2 mt-8 lg:mt-0">
-            <Image
-              src="/abtua.jpg"
-              alt="Why Us"
-              width={500}
-              height={300}
-              className="w-full h-auto rounded-xl shadow-lg object-cover hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Collapsible Services Section */}
-      <div className="mt-16 bg-white rounded-xl shadow-lg p-8">
-        <div className="max-w-6xl mx-auto">
-          <h3 className="text-4xl lg:text-5xl font-semibold text-gray-800 mb-6 text-center">
-            Why Choose Us?
-          </h3>
-          <p className="text-lg lg:text-xl text-gray-700 mb-10 text-center leading-relaxed">
-            We prioritize your health by connecting you with trusted professionals and facilities for every healthcare need. Experience personalized care and quick access to services with us.
-          </p>
-          <div className="space-y-6">
-            {services.map((service, index) => (
-              <div key={index} className="border-b border-gray-300 pb-4">
-                <button
-                  className="flex justify-between items-center w-full py-3 text-left text-xl font-medium"
-                  onClick={() => toggleSection(index)}
+            {/* Expandable Content */}
+            <AnimatePresence>
+              {activeSection === index && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="overflow-hidden"
                 >
-                  <span className={`${activeSection === index ? 'text-blue-600' : 'text-blue-800'} transition-colors`}>
-                    {service.title}
-                  </span>
-                  <span className={`flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all ${activeSection === index ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-gray-300 text-gray-800 hover:bg-gray-100'}`}>
-                    {activeSection === index ? <FaMinus size={20} /> : <FaPlus size={20} />}
-                  </span>
-                </button>
-                {activeSection === index && (
-                  <p className="mt-4 text-gray-800 text-lg lg:text-xl leading-loose">
-                    {service.content}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
+                  <p className="mt-3 text-gray-300 text-sm leading-relaxed">{faq.content}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
 };
 
 export default AboutUs;
-

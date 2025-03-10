@@ -9,8 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Loader = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-600"></div>
+    <div className="flex items-center justify-center min-h-screen bg-gray-900">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-green-600"></div>
     </div>
   );
 };
@@ -25,7 +25,7 @@ const LoginPage = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    setIsLoading(true); // Show loader
+    setIsLoading(true);
 
     try {
       const res = await fetch('/api/auth/login', {
@@ -37,14 +37,13 @@ const LoginPage = () => {
       if (!res.ok) {
         const { message } = await res.json();
         setError(message);
-        setIsLoading(false); // Hide loader on error
+        setIsLoading(false);
         return;
       }
 
       const { token } = await res.json();
       localStorage.setItem('token', token);
 
-      // Show success toast
       toast.success('Login successful!', {
         position: 'top-right',
         autoClose: 3000,
@@ -54,44 +53,41 @@ const LoginPage = () => {
         draggable: true,
       });
 
-      // Redirect after a delay to allow the toast to be visible
       setTimeout(() => {
         router.push('/dashboard');
       }, 3000);
-     } catch (err) {
-        console.error(err); // Log the error for debugging
-        setError('An error occurred. Please try again.');
-        setIsLoading(false); // Hide loader on error
-      }
-      
+    } catch (err) {
+      console.error(err);
+      setError('An error occurred. Please try again.');
+      setIsLoading(false);
+    }
   };
 
   if (isLoading) {
-    // Show loader while loading
     return <Loader />;
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700">
       <ToastContainer />
-      <div className="w-full max-w-md p-8 bg-white rounded-xl shadow-lg">
-        <div className="flex flex-col items-center">
+      <div className="w-full max-w-md p-8 bg-gray-800 rounded-xl shadow-lg space-y-8">
+        <div className="flex flex-col items-center space-y-4">
           <Image
             src="/medical.jpg"
             alt="Website Logo"
             width={80}
             height={80}
-            className="mb-6 rounded-full shadow-md"
+            className="mb-4 rounded-full shadow-md"
           />
-          <h2 className="text-3xl font-bold text-gray-800">Welcome Back!</h2>
-          <p className="mt-2 text-sm text-gray-500">Log in to your account</p>
+          <h2 className="text-3xl font-semibold text-white">Welcome Back!</h2>
+          <p className="text-sm text-gray-400">Log in to your account</p>
         </div>
-        <form onSubmit={handleLogin} className="mt-6 space-y-4">
+        <form onSubmit={handleLogin} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-300">
               Email Address
             </label>
-            <div className="relative mt-1">
+            <div className="relative mt-2">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                 <FaEnvelope />
               </span>
@@ -101,16 +97,17 @@ const LoginPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full pl-10 px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full pl-10 px-4 py-3 text-sm text-white border border-gray-600 rounded-lg bg-gray-700 focus:ring-green-500 focus:border-green-500 transition duration-200"
                 placeholder="Enter your email"
               />
             </div>
           </div>
+
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-300">
               Password
             </label>
-            <div className="relative mt-1">
+            <div className="relative mt-2">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                 <FaLock />
               </span>
@@ -120,27 +117,30 @@ const LoginPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full pl-10 px-4 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full pl-10 px-4 py-3 text-sm text-white border border-gray-600 rounded-lg bg-gray-700 focus:ring-green-500 focus:border-green-500 transition duration-200"
                 placeholder="Enter your password"
               />
             </div>
           </div>
+
           {error && (
             <div className="text-sm text-red-600">
               {error}
             </div>
           )}
+
           <button
             type="submit"
-            className="w-full px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-6 py-3 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300"
           >
             Log In
           </button>
         </form>
-        <p className="mt-6 text-sm text-center text-gray-600">
+
+        <p className="text-sm text-center text-gray-400">
           Don&apos;t have an account?{' '}
           <Link href="/register" legacyBehavior>
-            <a className="text-indigo-600 hover:underline">Sign up</a>
+            <a className="text-green-400 hover:underline">Sign up</a>
           </Link>
         </p>
       </div>
@@ -149,5 +149,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-

@@ -4,24 +4,17 @@ import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import {
-  faHeartPulse,
-  faFaceSmile,
-  faLungs,
-  faBrain,
-  faTooth,
-  faBone,
-  faEye,
-  faChild,
-  faCapsules,
-  faMicroscope,
+  faHeartPulse, faFaceSmile, faLungs, faBrain, faTooth,
+  faBone, faEye, faChild, faCapsules, faMicroscope
 } from '@fortawesome/free-solid-svg-icons';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
-// Define the specialties
 interface Specialty {
   title: string;
   icon: IconDefinition;
+  color: string;
 }
 
 interface Doctor {
@@ -53,19 +46,19 @@ const doctorsData: Doctor[] = [
   { name: 'Dr. Talha Muneer', specialty: 'Pulmonology', experience: '10 years', rating: 4.7, imageUrl: '/ur1.webp' },
   { name: 'Dr. Tassawar Hayat', specialty: 'Dermatology', experience: '10 years', rating: 4.7, imageUrl: '/dn2.jpg' },
   { name: 'Dr. Ubaid Shah', specialty: 'Dermatology', experience: '10 years', rating: 4.7, imageUrl: '/gf3.jpg' },
-];                 
+]; 
 
 const specialties: Specialty[] = [
-  { title: 'Cardiology', icon: faHeartPulse },
-  { title: 'Dermatology', icon: faFaceSmile },
-  { title: 'Pulmonology', icon: faLungs },
-  { title: 'Neurology', icon: faBrain },
-  { title: 'Dentistry', icon: faTooth },
-  { title: 'Orthopedics', icon: faBone },
-  { title: 'Ophthalmology', icon: faEye },
-  { title: 'Pediatrics', icon: faChild },
-  { title: 'Pharmacology', icon: faCapsules },
-  { title: 'Pathology', icon: faMicroscope },
+  { title: 'Cardiology', icon: faHeartPulse, color: 'text-red-500' },
+  { title: 'Dermatology', icon: faFaceSmile, color: 'text-yellow-500' },
+  { title: 'Pulmonology', icon: faLungs, color: 'text-blue-500' },
+  { title: 'Neurology', icon: faBrain, color: 'text-purple-500' },
+  { title: 'Dentistry', icon: faTooth, color: 'text-teal-500' },
+  { title: 'Orthopedics', icon: faBone, color: 'text-orange-500' },
+  { title: 'Ophthalmology', icon: faEye, color: 'text-indigo-500' },
+  { title: 'Pediatrics', icon: faChild, color: 'text-pink-500' },
+  { title: 'Pharmacology', icon: faCapsules, color: 'text-green-500' },
+  { title: 'Pathology', icon: faMicroscope, color: 'text-gray-500' },
 ];
 
 const DoctorsPage: React.FC = () => {
@@ -73,76 +66,89 @@ const DoctorsPage: React.FC = () => {
   const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
   const doctorsRef = useRef<HTMLDivElement | null>(null);
 
-  // Filter doctors based on selected specialty
   const filteredDoctors = selectedSpecialty
     ? doctorsData.filter((doctor) => doctor.specialty === selectedSpecialty)
     : [];
 
-  const handleSpecialtyClick = (specialty: string) => {
-    setSelectedSpecialty(specialty);
-
-    // Scroll to doctors section
-    setTimeout(() => {
-      doctorsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 200);
+  const handleSpecialtySelection = (specialtyTitle: string) => {
+    setSelectedSpecialty(specialtyTitle);
+    if (doctorsRef.current) {
+      doctorsRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleBookAppointment = (doctorName: string) => {
-    router.push(`/book-appointment?doctor=${encodeURIComponent(doctorName)}`);
+    // Navigate to the book appointment page for the selected doctor
+    router.push(`/book-appointment?doctor=${doctorName}`);
   };
 
   return (
-    <section className="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen py-16 px-6 sm:px-10 lg:px-20">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-blue-900">Our Doctors</h1>
-        <p className="text-lg sm:text-xl text-blue-700 mt-4">
-          Meet our highly skilled specialists, dedicated to providing the best healthcare services.
+    <section className="bg-gray-900 min-h-screen py-12 px-6 sm:px-10 md:px-14 lg:px-20 text-white">
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 1 }} 
+        className="text-center mb-12"
+      >
+        <h1 className="text-3xl sm:text-4xl font-extrabold leading-snug bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
+          Find a Specialist
+        </h1>
+        <p className="text-gray-400 text-center mt-4 mb-10 max-w-2xl mx-auto text-base md:text-lg">
+          Browse by specialty and book appointments with ease.
         </p>
-      </div>
+      </motion.div>
 
-      {/* Specialties Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      {/* Specialty Selection Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {specialties.map((specialty, index) => (
-          <div
+          <motion.div
             key={index}
-            className={`p-6 sm:p-8 bg-white shadow-xl rounded-lg hover:shadow-2xl hover:-translate-y-2 transform transition duration-300 ${
-              selectedSpecialty === specialty.title ? 'border-2 border-blue-500' : ''
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`p-5 bg-gray-800 shadow-lg rounded-lg cursor-pointer transition-all duration-300 text-center border-2 border-transparent hover:border-green-500 ${
+              selectedSpecialty === specialty.title ? 'border-green-500 bg-green-500 text-white' : ''
             }`}
-            onClick={() => handleSpecialtyClick(specialty.title)}
+            onClick={() => handleSpecialtySelection(specialty.title)}
           >
-            <div className="flex items-center justify-center bg-blue-500 text-white w-16 h-16 rounded-full mx-auto mb-6 shadow-lg hover:scale-110 transition-transform duration-300">
-              <FontAwesomeIcon icon={specialty.icon} className="text-3xl" />
+            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-700 mx-auto mb-4">
+              <FontAwesomeIcon icon={specialty.icon} className={`text-3xl ${specialty.color}`} />
             </div>
-            <h3 className="text-center text-xl sm:text-2xl font-semibold mb-4">{specialty.title}</h3>
-          </div>
+            <h3 className="text-lg font-semibold">{specialty.title}</h3>
+          </motion.div>
         ))}
       </div>
 
-      {/* Doctors List */}
+      {/* Doctors Section */}
       <div ref={doctorsRef} className="mt-12">
         {selectedSpecialty && (
           <>
-            <h2 className="text-center text-2xl font-semibold mb-6">
+            <h2 className="text-center text-2xl font-semibold mb-6 text-green-400">
               {filteredDoctors.length} Doctor(s) Found for {selectedSpecialty}
             </h2>
 
             {filteredDoctors.length === 0 ? (
-              <p className="text-center text-gray-600">No doctors available for this specialty.</p>
+              <p className="text-center text-gray-400 text-lg">No doctors available.</p>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {filteredDoctors.map((doctor, index) => (
-                  <div key={index} className="p-6 bg-white shadow-lg rounded-lg text-center">
-                    <Image src={doctor.imageUrl} alt={doctor.name} width={150} height={150} className="rounded-full mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold">{doctor.name}</h3>
-                    <p className="text-gray-600">{doctor.experience} experience</p>
-                    <p className="text-yellow-500">⭐ {doctor.rating}</p>
+                  <motion.div
+                    key={index}
+                    whileHover={{ scale: 1.03 }}
+                    className="p-6 bg-gray-800 shadow-xl rounded-lg text-center hover:bg-green-600 hover:text-white transition-all duration-300"
+                  >
+                    <div className="relative w-24 h-24 mx-auto mb-4">
+                      <Image src={doctor.imageUrl} alt={`Dr. ${doctor.name}`} layout="fill" objectFit="cover" className="rounded-full border-2 border-green-500" />
+                    </div>
+                    <h3 className="text-xl font-bold">{doctor.name}</h3>
+                    <p className="text-gray-300 text-sm">{doctor.experience} of experience</p>
+                    <p className="text-yellow-400 font-semibold">⭐ {doctor.rating}</p>
                     <button
                       onClick={() => handleBookAppointment(doctor.name)}
-                      className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition"
+                      className="mt-4 py-2 px-6 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all duration-300"
                     >
                       Book Appointment
                     </button>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             )}
@@ -154,7 +160,3 @@ const DoctorsPage: React.FC = () => {
 };
 
 export default DoctorsPage;
-
-
-
-

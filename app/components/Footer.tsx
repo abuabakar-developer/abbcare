@@ -12,6 +12,7 @@ import {
   FaPhoneAlt,
 } from "react-icons/fa";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -34,48 +35,88 @@ const Footer = () => {
 
       const data = await response.json();
       setMessage(data.message);
-
-      if (response.status === 201) {
-        setEmail("");
-      }
+      if (response.status === 201) setEmail("");
     } catch (error) {
-      console.error("Subscription error:", error);
+      console.error("Subscription Error:", error);
       setMessage("An error occurred. Please try again later.");
     }
   };
 
   return (
-    <footer className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white py-16 px-6">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-        {/* Brand Section */}
+    <footer className="relative bg-gray-900 text-gray-300 py-12 px-6 lg:px-20">
+      {/* Background Glow Effect */}
+      <div className="absolute inset-0 pointer-events-none">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.15 }}
+          className="absolute inset-0 bg-green-500 blur-[150px]"
+        />
+      </div>
+
+      {/* Newsletter Subscription */}
+      <div className="max-w-3xl mx-auto text-center mb-10">
+        <h3 className="text-lg sm:text-2xl font-semibold text-white">
+          Stay Updated!
+        </h3>
+        <p className="text-sm text-gray-400 mb-5">
+          Subscribe for the latest updates & exclusive health tips.
+        </p>
+        <form
+          onSubmit={handleSubscribe}
+          className="flex flex-col sm:flex-row items-center gap-4"
+        >
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="flex-1 w-full p-3 rounded-lg bg-gray-800 text-white focus:ring-2 focus:ring-green-500 placeholder-gray-400 text-sm"
+          />
+          <button
+            type="submit"
+            className="w-full sm:w-1/3 bg-green-500 hover:bg-green-600 text-white text-sm px-6 py-3 rounded-lg transition-all"
+          >
+            Subscribe
+          </button>
+        </form>
+        {message && (
+          <p
+            className={`mt-3 text-sm ${
+              message.startsWith("Thank") ? "text-green-400" : "text-red-400"
+            }`}
+          >
+            {message}
+          </p>
+        )}
+      </div>
+
+      {/* Footer Sections */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        {/* About ABCare */}
         <div>
-          <h2 className="text-3xl font-bold mb-4 opacity-80">ABCare</h2>
-          <p className="text-gray-300 text-md">
-            At <span className="font-extrabold text-white">ABCare</span>, we provide high-standard healthcare services
-            at your convenience, including Lab, Physio, Nursing, and Pharmacy
-            delivery. Book online appointments and connect with certified
-            medical professionals effortlessly.
+          <h2 className="text-2xl font-bold text-white tracking-wide mb-3">
+            ABCare
+          </h2>
+          <p className="text-sm text-gray-400">
+            Providing high-standard healthcare services, including Lab, Physio, Nursing, and Pharmacy delivery.
           </p>
         </div>
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-xl font-semibold mb-4 opacity-80">Quick Links</h3>
-          <ul className="space-y-3">
+          <h3 className="text-lg font-semibold text-white mb-3">Quick Links</h3>
+          <ul className="space-y-2">
             {[
-              { label: "Home Pharmacy Services", icon: FaPills, link: "/medicines" },
-              { label: "Home Lab Services", icon: FaHeartbeat, link: "/lab" },
-              { label: "Home Vaccination Services", icon: FaSyringe, link: "/vaccination" },
-              { label: "Home Mother Care", icon: FaHandHoldingHeart, link: "/mothercare" },
-              { label: "Home Physio", icon: FaPhoneAlt, link: "/rehabilitationServices" },
-              { label: "Home Tele Clinic", icon: FaPhoneAlt, link: "/tele" },
-            ].map(({ label, icon: Icon, link }) => (
-              <li key={label} className="flex items-center group">
-                <Icon className="mr-2 text-blue-400 text-lg" />
-                <Link
-                  href={link}
-                  className="relative text-base block border-b border-transparent hover:border-blue-400 hover:text-blue-400 transition duration-300"
-                >
+              { label: "Pharmacy", icon: FaPills, link: "/medicines", color: "text-red-400" },
+              { label: "Lab Services", icon: FaHeartbeat, link: "/lab", color: "text-blue-400" },
+              { label: "Vaccination", icon: FaSyringe, link: "/vaccination", color: "text-yellow-400" },
+              { label: "Mother Care", icon: FaHandHoldingHeart, link: "/mothercare", color: "text-pink-400" },
+              { label: "Physio", icon: FaPhoneAlt, link: "/rehabilitationServices", color: "text-green-400" },
+              { label: "Tele Clinic", icon: FaPhoneAlt, link: "/tele", color: "text-purple-400" },
+            ].map(({ label, icon: Icon, link, color }) => (
+              <li key={label} className="flex items-center gap-3 group">
+                <Icon className={`${color} text-lg transition-colors group-hover:text-white`} />
+                <Link href={link} className="text-sm text-gray-300 hover:text-green-400 transition-all">
                   {label}
                 </Link>
               </li>
@@ -83,65 +124,44 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Newsletter Section */}
+        {/* Contact Info */}
         <div>
-          <h3 className="text-xl font-semibold mb-4 opacity-80">Subscribe</h3>
-          <p className="text-gray-300 mb-4">Get the latest updates and health tips.</p>
-          <form onSubmit={handleSubscribe} className="flex flex-col space-y-3">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 rounded-md text-black outline-none focus:ring-2 focus:ring-blue-400"
-            />
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-md transition text-sm font-medium"
-            >
-              Subscribe
-            </button>
-          </form>
-          {message && (
-            <p className={`mt-3 text-sm ${message.startsWith("Thank") ? "text-green-400" : "text-red-400"}`}>
-              {message}
-            </p>
-          )}
+          <h3 className="text-lg font-semibold text-white mb-3">Contact Us</h3>
+          <p className="text-sm text-gray-400">📍 123 Healthcare Street, Jaranwala, Pakistan</p>
+          <p className="text-sm text-gray-400">📧 info@abcare.com</p>
+          <p className="text-sm text-gray-400">📞 +123 456 7890</p>
         </div>
 
-        {/* Social Media Section */}
+        {/* Social Media */}
         <div>
-          <h3 className="text-xl font-semibold mb-4 opacity-80">Follow Us</h3>
-          <p className="text-gray-300 mb-4">Stay connected with us on social media.</p>
-          <div className="flex space-x-3">
+          <h3 className="text-lg font-semibold text-white mb-3">Follow Us</h3>
+          <div className="flex space-x-5">
             {[
-              { icon: FaFacebookF, label: "Facebook", link: "#" },
-              { icon: FaGithub, label: "Github", link: "#" },
-              { icon: FaLinkedinIn, label: "LinkedIn", link: "#" },
-            ].map(({ icon: Icon, label, link }) => (
+              { icon: FaFacebookF, link: "#", color: "text-blue-600" },
+              { icon: FaGithub, link: "#", color: "text-gray-700" },
+              { icon: FaLinkedinIn, link: "#", color: "text-blue-500" },
+            ].map(({ icon: Icon, link, color }) => (
               <a
-                key={label}
+                key={link}
                 href={link}
-                className="flex items-center justify-center w-10 h-10 border-2 border-white rounded-md text-white transition hover:bg-blue-500 hover:text-white"
-                aria-label={label}
+                className="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full text-gray-300 hover:bg-green-500 hover:text-white transition-all shadow-md"
               >
-                <Icon className="text-xl" />
+                <Icon className={`${color} text-lg`} />
               </a>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Copyright Section */}
-      <div className="bg-blue-700 text-center text-sm text-gray-300 py-4 mt-16">
-        &copy; {new Date().getFullYear()} ABCare. All rights reserved.
+      {/* Divider */}
+      <div className="mt-10 border-t border-gray-700 opacity-50"></div>
+
+      {/* Copyright */}
+      <div className="mt-5 text-center text-sm text-gray-500">
+        <p>© {new Date().getFullYear()} ABCare. All Rights Reserved.</p>
       </div>
     </footer>
   );
 };
 
 export default Footer;
-
-
-
-

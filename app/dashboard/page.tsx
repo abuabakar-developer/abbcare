@@ -1,168 +1,168 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { FiPlus } from 'react-icons/fi';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-// Define types for appointments
 interface Appointment {
-  id: string; // Replace with actual unique identifier if applicable
-  title: string;
-  date: string;
-}
-
-interface Appointments {
-  upcoming: Appointment[];
-  past: Appointment[];
+  _id: string;
+  fullName: string;
+  dateOfBirth: string;
+  contact: string;
+  service: string;
+  status: "scheduled" | "pending" | "canceled";
 }
 
 const DashboardPage = () => {
-  const [appointments, setAppointments] = useState<Appointments>({
-    upcoming: [],
-    past: [],
-  });
-  const [selectedType, setSelectedType] = useState<'upcoming' | 'past' | null>(null);
-  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<"scheduled" | "pending" | "canceled">("scheduled");
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-
+    const token = localStorage.getItem("token");
     if (!token) {
-      toast.warning('Please log in to access your dashboard.');
-      router.push('/login');
+      toast.warning("Please log in to access your dashboard.");
+      router.push("/login");
       return;
     }
 
     const fetchAppointments = async () => {
       try {
-        const appointmentsRes = await fetch('/api/appointments', {
+        const response = await fetch("/api/appointments", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const appointmentsData = await appointmentsRes.json();
 
-        if (!appointmentsRes.ok) throw new Error(appointmentsData.error);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error);
 
-        setAppointments({
-          upcoming: appointmentsData.upcoming || [],
-          past: appointmentsData.past || [],
-        });
-      } catch {
-        toast.error('Failed to load appointments.');
+        setAppointments(data.data || []);
+      } catch (error) {
+        console.error("Error fetching appointments:", error);
+        toast.error("Failed to load appointments.");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchAppointments();
   }, [router]);
 
-  const handleIconClick = () => {
-    router.push('/book-appointment');
-  };
+  const updateAppointmentStatus = async (id: string, newStatus: "scheduled" | "pending" | "canceled") => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Unauthorized. Please log in.");
+        return;
+      }
 
-  const handleTypeSelection = (type: 'upcoming' | 'past') => {
-    setSelectedType(type);
-    setSelectedAppointment(null);
+      const response = await fetch(`/api/appointments/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to update appointment.");
+      }
+
+      setAppointments((prev) =>
+        prev.map((appointment) =>
+          appointment._id === id ? { ...appointment, status: newStatus } : appointment
+        )
+      );
+
+      toast.success(`Appointment status updated to ${newStatus.toUpperCase()}`);
+    } catch (error) {
+      console.error("Error updating appointment status:", error);
+      toast.error("Error updating appointment status.");
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-6">
+    <div className="min-h-screen bg-gray-900 text-white py-12 px-4 sm:px-8 md:px-12">
       <ToastContainer />
-      <div className="max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <div className="space-y-8">
-          <div className="text-center">
-            <h3 className="text-4xl font-bold text-gray-700">Appointments</h3>
-          </div>
+      <div className="max-w-6xl mx-auto p-6 sm:p-10 md:p-14 rounded-xl shadow-xl bg-gray-800">
+        <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-200 text-center mb-6">
+          Your Appointments
+        </h3>
 
-          <div className="flex justify-center space-x-4">
+        <div className="mt-6 flex justify-center gap-6">
+          {["scheduled", "pending", "canceled"].map((tab) => (
             <button
-              className={`px-6 py-2 rounded-md font-semibold ${
-                selectedType === 'upcoming'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-blue-100'
+              key={tab}
+              onClick={() => setActiveTab(tab as "scheduled" | "pending" | "canceled")}
+              className={`px-6 py-3 rounded-lg font-semibold text-lg transition duration-300 transform hover:scale-105 focus:outline-none ${
+                activeTab === tab
+                  ? "bg-blue-600 text-white shadow-md"
+                  : "bg-gray-700 text-gray-300"
               }`}
-              onClick={() => handleTypeSelection('upcoming')}
             >
-              Upcoming Appointments
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
-            <button
-              className={`px-6 py-2 rounded-md font-semibold ${
-                selectedType === 'past'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-blue-100'
-              }`}
-              onClick={() => handleTypeSelection('past')}
-            >
-              Past Appointments
-            </button>
-          </div>
+          ))}
+        </div>
 
-          <div>
-            {selectedType && (
-              <ul className="space-y-4">
-                {appointments[selectedType].length > 0 ? (
-                  appointments[selectedType].map((appointment) => (
-                    <li
-                      key={appointment.id}
-                      className={`p-4 rounded-lg shadow-sm transition-transform transform hover:scale-105 ${
-                        selectedAppointment === appointment
-                          ? 'bg-blue-200 border-blue-500'
-                          : 'bg-gray-100 border-gray-300'
+        {loading ? (
+          <div className="flex justify-center mt-10">
+            <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          <div className="mt-8 space-y-4">
+            {appointments
+              .filter((appointment) => appointment.status === activeTab)
+              .map((appointment) => (
+                <div
+                  key={appointment._id}
+                  className="flex justify-between items-center p-6 border-b-4 border-gray-600 bg-gray-700 hover:bg-gray-600 transition duration-300"
+                >
+                  <div>
+                    <h4 className="text-lg sm:text-xl font-semibold text-gray-200">{appointment.fullName}</h4>
+                    <p className="text-sm sm:text-base text-gray-400">{appointment.dateOfBirth} - {appointment.service}</p>
+                    <span
+                      className={`inline-block text-xs font-semibold px-3 py-1 rounded-full mt-3 ${
+                        appointment.status === "scheduled"
+                          ? "bg-green-600"
+                          : appointment.status === "pending"
+                          ? "bg-yellow-600"
+                          : "bg-red-600"
                       }`}
-                      onClick={() => setSelectedAppointment(appointment)}
                     >
-                      <p className="text-gray-800 font-medium">{appointment.title}</p>
-                      <p className="text-gray-600 text-sm">{appointment.date}</p>
-                    </li>
-                  ))
-                ) : (
-                  <p className="text-gray-500">No {selectedType} appointments available</p>
-                )}
-              </ul>
-            )}
+                      {appointment.status.toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      onClick={() => updateAppointmentStatus(appointment._id, "pending")}
+                      className="px-3 py-2 sm:px-4 sm:py-3 bg-yellow-600 text-xs sm:text-sm rounded transition duration-300 transform hover:scale-105"
+                    >
+                      Set Pending
+                    </button>
+                    <button
+                      onClick={() => updateAppointmentStatus(appointment._id, "scheduled")}
+                      className="px-3 py-2 sm:px-4 sm:py-3 bg-green-600 text-xs sm:text-sm rounded transition duration-300 transform hover:scale-105"
+                    >
+                      Set Scheduled
+                    </button>
+                    <button
+                      onClick={() => updateAppointmentStatus(appointment._id, "canceled")}
+                      className="px-3 py-2 sm:px-4 sm:py-3 bg-red-600 text-xs sm:text-sm rounded transition duration-300 transform hover:scale-105"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ))}
           </div>
-
-          {selectedAppointment && (
-            <div className="bg-blue-50 p-4 rounded-lg shadow-lg">
-              <h3 className="text-lg font-semibold text-blue-700 mb-2">Selected Appointment</h3>
-              <p className="text-gray-800 font-medium">{selectedAppointment.title}</p>
-              <p className="text-gray-600 text-sm">{selectedAppointment.date}</p>
-            </div>
-          )}
-        </div>
-
-        <div className="mt-12 flex justify-center">
-          <div className="flex flex-col items-center justify-center border-2 border-blue-600 rounded-lg p-4 max-w-sm w-full shadow-lg hover:shadow-xl transition-shadow bg-gray-50">
-            <div
-              className="w-16 h-16 flex items-center justify-center bg-blue-600 text-white rounded-full cursor-pointer hover:bg-blue-700"
-              onClick={handleIconClick}
-            >
-              <FiPlus size={36} />
-            </div>
-            <p className="mt-4 text-3xl font-bold text-gray-700">New Appointment</p>
-          </div>
-        </div>
-        <div className="mt-8 flex justify-center">
-          <button
-            onClick={() => {
-              localStorage.removeItem('token');
-              toast.success('Logged out successfully.');
-              router.push('/login');
-            }}
-            className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Logout
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );
 };
 
 export default DashboardPage;
-
-
-
-
-

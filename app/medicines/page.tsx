@@ -92,54 +92,52 @@ const MedicinePage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen px-6 py-10 bg-gradient-to-b from-green-100 to-green-50">
-      <header className="text-center space-y-4">
-        <h1 className="text-5xl font-extrabold tracking-wide text-green-800">Abcare Medicine</h1>
-        <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-          Quick, reliable, and hassle-free online medicine delivery at your doorstep.
-        </p>
-      </header>
+    <div className="w-full px-6 sm:px-12 lg:px-20 py-16 bg-gradient-to-br from-gray-900 to-gray-800 text-gray-200">
+      {/* Heading */}
+      <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-green-400 leading-tight tracking-wide mb-10">
+        Abcare Medicine Delivery
+      </h1>
 
-      <div className="flex flex-col lg:flex-row items-center mt-10 gap-16">
-        <Image
-          src="/pharm.webp"
-          alt="Pharmacy"
-          width={600}
-          height={400}
-          className="rounded-2xl shadow-lg hover:scale-105 transform transition duration-300"
-        />
+      {/* Description */}
+      <p className="text-lg sm:text-xl text-gray-300 text-center leading-relaxed tracking-wide mb-12 max-w-4xl mx-auto">
+        Get your medicines delivered swiftly and securely at your doorstep with ease.
+      </p>
 
-        <div className="text-center lg:text-left space-y-6">
-          <h2 className="text-3xl font-bold text-green-700">Why Choose Abcare?</h2>
-          <ul className="space-y-4 text-gray-800">
-            <li className="flex items-center gap-2">
-              <span className="text-green-600 text-xl">✔</span> Reliable and quick delivery services
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="text-green-600 text-xl">✔</span> Wide range of medicines available
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="text-green-600 text-xl">✔</span> Easy and user-friendly process
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="text-green-600 text-xl">✔</span> Trusted by thousands of happy customers
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="text-green-600 text-xl">✔</span> Professional handling of prescriptions
-            </li>
+      {/* Services Section */}
+      <section className="mt-12 lg:flex lg:items-center lg:space-x-12">
+        <div className="lg:w-1/2">
+          <h2 className="text-3xl font-semibold text-green-300 mb-6 tracking-wide">Why Choose Abcare?</h2>
+          <ul className="list-disc pl-8 space-y-4 text-gray-300 text-lg leading-relaxed">
+            <li>✔ Fast and reliable delivery</li>
+            <li>✔ Large variety of medicines</li>
+            <li>✔ Easy, user-friendly process</li>
+            <li>✔ Trusted by thousands</li>
           </ul>
         </div>
-      </div>
 
+        {/* Image */}
+        <div className="lg:w-1/2 flex justify-center items-center mt-10 lg:mt-0">
+          <Image
+            src="/pharm.webp"
+            alt="Medicine Delivery"
+            width={700}
+            height={400}
+            className="rounded-lg shadow-2xl lg:max-h-[350px] transform hover:scale-105 transition duration-300 hover:shadow-green-500"
+          />
+        </div>
+      </section>
+
+      {/* Medicine Order Form */}
       <form
         onSubmit={handleSubmit}
-        className="mt-14 w-full max-w-xl bg-white p-10 rounded-2xl shadow-xl space-y-8"
+        className="mt-16 w-full max-w-2xl mx-auto bg-gray-800 p-10 rounded-2xl shadow-2xl space-y-8"
       >
-        <div className="flex justify-around mb-4">
+        {/* Selection Buttons */}
+        <div className="flex justify-center space-x-6">
           <button
             type="button"
-            className={`px-6 py-3 rounded-lg ${
-              selectedOption === "medicines" ? "bg-green-700 text-white" : "bg-gray-200"
+            className={`px-6 py-3 text-lg font-medium rounded-xl transition-all duration-300 ${
+              selectedOption === "medicines" ? "bg-green-600 text-white shadow-lg" : "bg-gray-700 hover:bg-green-500 hover:text-white"
             }`}
             onClick={() => handleOptionSelect("medicines")}
           >
@@ -147,8 +145,8 @@ const MedicinePage: React.FC = () => {
           </button>
           <button
             type="button"
-            className={`px-6 py-3 rounded-lg ${
-              selectedOption === "prescription" ? "bg-green-700 text-white" : "bg-gray-200"
+            className={`px-6 py-3 text-lg font-medium rounded-xl transition-all duration-300 ${
+              selectedOption === "prescription" ? "bg-green-600 text-white shadow-lg" : "bg-gray-700 hover:bg-green-500 hover:text-white"
             }`}
             onClick={() => handleOptionSelect("prescription")}
           >
@@ -156,85 +154,56 @@ const MedicinePage: React.FC = () => {
           </button>
         </div>
 
+        {/* Form Fields */}
         <div className="grid grid-cols-1 gap-6">
-          {["patientName", "address", "mobile", "city"].map((name) => (
-            <div key={name}>
-              <label
-                htmlFor={name}
-                className="block text-lg font-medium text-gray-700 capitalize"
-              >
-                {name.replace(/([A-Z])/g, " $1")}
-              </label>
-              <input
-                id={name}
-                type="text"
-                name={name}
-                value={formData[name as keyof FormData] as string}
-                onChange={handleInputChange}
-                placeholder={`Enter ${name.replace(/([A-Z])/g, " $1").toLowerCase()}`}
-                required
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring focus:ring-green-300"
-              />
-            </div>
+          {[{ name: "patientName", placeholder: "Patient Name" },
+            { name: "address", placeholder: "Address" },
+            { name: "mobile", placeholder: "Mobile Number" },
+            { name: "city", placeholder: "City" }].map(({ name, placeholder }) => (
+            <input
+              key={name}
+              type="text"
+              name={name}
+              value={formData[name as keyof FormData] as string}
+              onChange={handleInputChange}
+              placeholder={placeholder}
+              required
+              className="w-full px-5 py-4 text-lg bg-gray-700 border border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500"
+            />
           ))}
-          {selectedOption === "prescription" && (
-            <div>
-              <label
-                htmlFor="prescription"
-                className="block text-lg font-medium text-gray-700"
-              >
-                Upload Prescription
-              </label>
-              <input
-                type="file"
-                id="prescription"
-                onChange={handleFileChange}
-                accept="image/*,.pdf"
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring focus:ring-green-300"
-              />
-            </div>
-          )}
+          
           {selectedOption === "medicines" && (
-            <div>
-              <label
-                htmlFor="medicines"
-                className="block text-lg font-medium text-gray-700"
-              >
-                Enter Medicines
-              </label>
-              <input
-                id="medicines"
-                type="text"
-                name="medicines"
-                value={formData.medicines}
-                onChange={handleInputChange}
-                placeholder="Enter medicines"
-                required
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring focus:ring-green-300"
-              />
-            </div>
+            <input
+              type="text"
+              name="medicines"
+              value={formData.medicines}
+              onChange={handleInputChange}
+              placeholder="Enter Medicines"
+              required
+              className="w-full px-5 py-4 text-lg bg-gray-700 border border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500"
+            />
+          )}
+
+          {selectedOption === "prescription" && (
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="w-full px-5 py-4 text-lg bg-gray-700 border border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500"
+              required
+            />
           )}
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full py-4 text-lg font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 focus:outline-none focus:ring focus:ring-green-400"
+          className="w-full py-4 text-lg font-semibold text-white bg-green-600 rounded-xl hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-2xl"
         >
           Place Order
         </button>
       </form>
-
-      <div className="mt-8">
-        <a
-          href="tel:03154195240"
-          className="py-3 px-8 text-lg font-semibold text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:outline-none focus:ring focus:ring-blue-400"
-        >
-          Call Now
-        </a>
-      </div>
     </div>
   );
 };
 
 export default MedicinePage;
-

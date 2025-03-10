@@ -1,131 +1,77 @@
-import Image from 'next/image';
-import React from 'react';
+"use client";
+
+import React from "react";
+import Image from "next/image";
 
 const TeleClinicPage = () => {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center font-sans mb-4">
-      {/* Header */}
-      <header className="w-full pt-16 lg:pt-24 pb-8 bg-gray-50">
-        <h1 className="text-gray-700 text-center text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-wide">
-          ABCare Tele Clinics
-        </h1>
-      </header>
+    <div className="w-full px-6 sm:px-12 lg:px-20 py-16 bg-gradient-to-br from-gray-900 to-gray-800 text-gray-200">
+      {/* Heading */}
+      <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-teal-400 leading-tight tracking-wide mb-10">
+        ABCare Tele Clinics
+      </h1>
 
-      {/* Hero Section */}
-      <section className="mt-8 w-full max-w-screen-xl mx-auto px-6 md:px-12">
-        <div className="relative w-full h-64 md:h-[450px] lg:h-[550px] rounded-2xl overflow-hidden">
-          <Image
-            src="/tele.webp"
-            alt="ABCare Tele Clinics"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-2xl shadow-xl hover:scale-105 transition-all duration-300 ease-in-out"
-          />
-        </div>
-        <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-semibold text-gray-800 mt-8 leading-tight tracking-wide">
-          Quality Telemedicine 
-        </h2>
-        <p className="text-center text-lg md:text-xl lg:text-2xl text-gray-600 mt-4 max-w-3xl mx-auto leading-relaxed">
-          Consult with doctors, book appointments, and manage your health from the comfort of your home. Experience healthcare in a whole new way.
-        </p>
-      </section>
+      {/* Description */}
+      <p className="text-lg sm:text-xl text-gray-300 text-center leading-relaxed tracking-wide mb-12 max-w-4xl mx-auto">
+        Experience top-quality telemedicine services from the comfort of your home. Connect with expert doctors, book appointments, and manage your health conveniently.
+      </p>
 
       {/* Services Section */}
-      <section className="mt-12 w-full max-w-screen-xl mx-auto px-6 md:px-12">
-        <h2 className="text-center text-3xl md:text-4xl font-bold text-gray-800 tracking-wide">
-          Our Services
-        </h2>
-        <p className="text-center text-lg md:text-xl text-gray-600 mt-4 leading-relaxed">
-          At ABCare Tele Clinics, we bring healthcare to your doorstep. Here are the services we offer:
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-          {[
-            'Home lab sample collection',
-            'Home medicine delivery',
-            'Home nursing services',
-            '24/7 online doctor availability',
-            'Online consultations with a consultant/specialist'
-          ].map((service, index) => (
-            <div
-              key={index}
-              className="bg-white p-6 rounded-lg shadow-lg flex items-center text-gray-700 text-lg md:text-xl leading-relaxed hover:shadow-xl transition duration-300"
-            >
-              {service}
-            </div>
-          ))}
+      <section className="mt-12 lg:flex lg:items-center lg:space-x-12">
+        <div className="lg:w-1/2">
+          <h2 className="text-3xl font-semibold text-teal-300 mb-6 tracking-wide">Our TeleClinic Services</h2>
+          <ul className="list-disc pl-8 space-y-4 text-gray-300 text-lg leading-relaxed">
+            <li><span className="font-semibold text-teal-400">Virtual Consultations:</span> Get medical advice anytime, anywhere.</li>
+            <li><span className="font-semibold text-teal-400">Home Lab Sample Collection:</span> Hassle-free diagnostic services from home.</li>
+            <li><span className="font-semibold text-teal-400">Online Specialist Appointments:</span> Connect with top specialists easily.</li>
+            <li><span className="font-semibold text-teal-400">24/7 Doctor Availability:</span> Immediate medical support when you need it.</li>
+          </ul>
         </div>
-        <div className="relative w-full h-64 md:h-96 mt-8 overflow-hidden rounded-2xl">
+
+        {/* Image */}
+        <div className="lg:w-1/2 flex justify-center items-center mt-10 lg:mt-0">
           <Image
-            src="/te.webp"
-            alt="ABCare Services"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-2xl shadow-xl hover:scale-105 transition-all duration-300"
+            src="/tele.webp"
+            alt="TeleClinic Services"
+            width={700}
+            height={400}
+            className="rounded-lg shadow-2xl lg:max-h-[350px] transform hover:scale-105 transition duration-300 hover:shadow-teal-500"
           />
         </div>
       </section>
 
-      {/* Why Choose ABCare */}
-      <section className="mt-12 w-full max-w-screen-xl mx-auto px-6 md:px-12">
-        <h2 className="text-center text-3xl md:text-4xl font-bold text-gray-800">
-          Why Choose ABCare?
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-          {[
-            'Experienced and certified doctors',
-            'Affordable and transparent pricing',
-            'Convenient online and at-home services',
-            'Secure and private consultations',
-            '24/7 customer support'
-          ].map((reason, index) => (
-            <div
-              key={index}
-              className="bg-white p-6 rounded-lg shadow-lg flex items-center text-gray-700 text-lg md:text-xl leading-relaxed hover:shadow-xl transition duration-300"
-            >
-              {reason}
-            </div>
-          ))}
+      {/* Additional Details */}
+      <section className="mt-16 space-y-12 lg:grid lg:grid-cols-2 lg:gap-10">
+        <div>
+          <h3 className="text-2xl font-semibold text-teal-300 mb-4 tracking-wide">Secure & Private Consultations</h3>
+          <p className="text-gray-300 text-lg leading-relaxed">
+            All online consultations are encrypted and secure, ensuring complete privacy for our patients.
+          </p>
+        </div>
+
+        <div>
+          <h3 className="text-2xl font-semibold text-teal-300 mb-4 tracking-wide">Affordable & Accessible Care</h3>
+          <p className="text-gray-300 text-lg leading-relaxed">
+            High-quality medical services at an affordable price, available at your convenience.
+          </p>
+        </div>
+
+        <div>
+          <h3 className="text-2xl font-semibold text-teal-300 mb-4 tracking-wide">Easy Appointment Booking</h3>
+          <p className="text-gray-300 text-lg leading-relaxed">
+            Book appointments effortlessly through our user-friendly online platform.
+          </p>
         </div>
       </section>
 
-      {/* How to Book an Appointment */}
-      <section className="mt-12 w-full max-w-screen-xl mx-auto px-6 md:px-12">
-        <h2 className="text-center text-3xl md:text-4xl font-bold text-gray-800">
-          How to Book an Appointment?
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-          {[
-            'Visit our website and log in to your account.',
-            'Choose the service you require.',
-            'Select a convenient date and time.',
-            'Confirm your booking and make the payment online.',
-            'Receive confirmation and reminders for your appointment.'
-          ].map((step, index) => (
-            <div
-              key={index}
-              className="bg-white p-6 rounded-lg shadow-lg flex items-center text-gray-700 text-lg md:text-xl leading-relaxed hover:shadow-xl transition duration-300"
-            >
-              {`${index + 1}. ${step}`}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="mt-12 w-full max-w-screen-xl mx-auto px-6 md:px-12 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Contact Us</h2>
-        <p className="text-lg md:text-xl text-gray-600 mt-4">
-          Call us now at <span className="font-semibold text-blue-600">0315-4195240</span>
-        </p>
-        <button className="mt-6 px-10 py-4 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-blue-700 hover:scale-105 transition-all duration-300">
-          Call Now
+      {/* Call To Action */}
+      <div className="mt-12 text-center">
+        <button className="bg-gradient-to-r from-teal-500 to-teal-700 text-white text-lg py-4 px-12 rounded-lg shadow-lg hover:from-teal-600 hover:to-teal-800 transform hover:scale-110 transition duration-300">
+          Call Now: 03154195240
         </button>
-      </section>
+      </div>
     </div>
   );
 };
 
 export default TeleClinicPage;
-
-
-
