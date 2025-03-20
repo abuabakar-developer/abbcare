@@ -35,30 +35,6 @@ const BackgroundLines = () => {
           animate={{ scale: [1, 1.15, 1] }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
-
-        {/* Modern Animated Flowing Lines */}
-        {[
-          ["M50 400 C200 150, 600 650, 750 400", "M60 420 C220 180, 580 620, 740 380"],
-          ["M80 300 C280 80, 520 720, 710 310", "M90 330 C260 100, 540 690, 690 290"],
-          ["M140 520 C360 230, 480 590, 690 520", "M130 550 C350 260, 500 570, 710 500"],
-        ].map(([startPath, endPath], index) => (
-          <motion.path
-            key={index}
-            d={startPath}
-            stroke="url(#lineGradient)"
-            strokeWidth="3.5"
-            opacity={0.8 - index * 0.2}
-            animate={{
-              d: [startPath, endPath, startPath],
-              opacity: [0.6, 1, 0.6],
-            }}
-            transition={{
-              duration: 16 + index * 2.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
       </motion.svg>
 
       {/* Enhanced Floating Particle Lights */}
@@ -87,4 +63,3 @@ const BackgroundLines = () => {
 };
 
 export default BackgroundLines;
-

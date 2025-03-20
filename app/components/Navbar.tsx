@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [homeDropdownOpen, setHomeDropdownOpen] = useState(false);
-  const [mobileHomeDropdown, setMobileHomeDropdown] = useState(false);
+  const [homeMenuOpen, setHomeMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
@@ -20,8 +20,15 @@ const Navbar = () => {
     setIsLoggedIn(!!token); // Check if token exists
   }, []);
 
-  const toggleMenu = () => setMenuOpen((prev) => !prev);
-  const toggleMobileHomeDropdown = () => setMobileHomeDropdown((prev) => !prev);
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleHomeMenu = () => {
+    setMenuOpen(false);
+    setHomeMenuOpen(true);
+  };
+  const backToMainMenu = () => {
+    setHomeMenuOpen(false);
+    setMenuOpen(true);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token"); // Remove token from storage
@@ -88,7 +95,7 @@ const Navbar = () => {
           </Link>
 
           {isLoggedIn && (
-            <Link href="/dashboard" className="bg-blue-600 text-white px-5 py-2 rounded-full shadow-md hover:bg-blue-500 transition">
+            <Link href="/dashboard" className="bg-teal-600 text-white px-5 py-2 rounded-full shadow-md hover:bg-teal-500 transition">
               My Appointments
             </Link>
           )}
@@ -103,7 +110,6 @@ const Navbar = () => {
             </button>
           )}
         </div>
-
         {/* Mobile Menu Button */}
         <button
           className="lg:hidden flex items-center justify-center w-12 h-12 border border-gray-600 rounded-lg bg-gray-800"
@@ -115,61 +121,80 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <AnimatePresence>
-        {menuOpen && (
+        {menuOpen && !homeMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-gray-900 text-white p-6 border-t border-gray-700 rounded-b-lg"
+            className="bg-gray-900 text-white p-6 border-t border-gray-700 rounded-b-lg"
           >
             <button
-              onClick={toggleMobileHomeDropdown}
+              onClick={toggleHomeMenu}
               className="flex justify-between items-center w-full px-4 py-3 text-white font-semibold hover:bg-green-700 rounded-md transition"
             >
-              Home
-              <span>{mobileHomeDropdown ? "▲" : "▼"}</span>
+              Home <span>→</span>
             </button>
-            <AnimatePresence>
-              {mobileHomeDropdown && (
-                <motion.div className="ml-4 mt-2 space-y-2">
-                  {[
-                    { name: "Pharmacy", path: "/medicines" },
-                    { name: "Vaccination", path: "/vaccination" },
-                    { name: "Phisio", path: "/rehabilitationServices" },
-                    { name: "Mothercare", path: "/mothercare" },
-                    { name: "Lab", path: "/lab" },
-                  ].map((service) => (
-                    <Link
-                      key={service.name}
-                      href={service.path}
-                      className="block px-4 py-2 hover:bg-green-700 rounded-md"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      Home {service.name} Service
-                    </Link>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
             <Link href="/doctors" className="block px-4 py-3 hover:bg-green-700 rounded-md" onClick={() => setMenuOpen(false)}>
               Our Doctors
             </Link>
             <Link href="/aboutus" className="block px-4 py-3 hover:bg-green-700 rounded-md" onClick={() => setMenuOpen(false)}>
               About Us
             </Link>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-6 flex flex-col gap-3">
               <Link href="/book-appointment" className="w-full bg-green-600 text-white text-center py-3 rounded-md shadow-md hover:bg-green-500 transition" onClick={() => setMenuOpen(false)}>
                 Book Appointment
               </Link>
-              {!isLoggedIn ? (
-                <Link href="/login" className="w-full bg-gray-900 text-white text-center py-3 rounded-md shadow-md hover:bg-green-500 transition" onClick={() => setMenuOpen(false)}>
-                  Login
+              {isLoggedIn && (
+                <Link href="/dashboard" className="w-full bg-teal-600 text-white text-center py-3 rounded-md shadow-md hover:bg-teal-500 transition" onClick={() => setMenuOpen(false)}>
+                  My Appointments
                 </Link>
-              ) : (
+              )}
+              {isLoggedIn ? (
                 <button onClick={() => { handleLogout(); setMenuOpen(false); }} className="w-full bg-gray-900 text-white py-3 rounded-md shadow-md hover:bg-green-500 transition">
                   Logout
                 </button>
+              ) : (
+                <Link href="/login" className="w-full bg-gray-900 text-white text-center py-3 rounded-md shadow-md hover:bg-green-500 transition" onClick={() => setMenuOpen(false)}>
+                  Login
+                </Link>
               )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Home Navigation */}
+      <AnimatePresence>
+        {homeMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="bg-gray-900 text-white p-6 border-t border-gray-700 rounded-b-lg"
+          >
+            <button
+              onClick={backToMainMenu}
+              className="flex items-center px-4 py-3 text-white font-semibold hover:bg-green-700 rounded-md transition"
+            >
+              ← Back to Main Menu
+            </button>
+            <div className="mt-4 space-y-2">
+              {[
+                { name: "Pharmacy", path: "/medicines" },
+                { name: "Vaccination", path: "/vaccination" },
+                { name: "Phisio", path: "/rehabilitationServices" },
+                { name: "Mothercare", path: "/mothercare" },
+                { name: "Lab", path: "/lab" },
+              ].map((service) => (
+                <Link
+                  key={service.name}
+                  href={service.path}
+                  className="block px-4 py-2 hover:bg-green-700 rounded-md"
+                  onClick={() => setHomeMenuOpen(false)}
+                >
+                  {service.name} Service
+                </Link>
+              ))}
             </div>
           </motion.div>
         )}

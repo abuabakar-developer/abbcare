@@ -10,6 +10,8 @@ import {
   FaSyringe,
   FaHandHoldingHeart,
   FaPhoneAlt,
+  FaPaperPlane,
+  FaEnvelope,
 } from "react-icons/fa";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -65,18 +67,21 @@ const Footer = () => {
           onSubmit={handleSubscribe}
           className="flex flex-col sm:flex-row items-center gap-4"
         >
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="flex-1 w-full p-3 rounded-lg bg-gray-800 text-white focus:ring-2 focus:ring-green-500 placeholder-gray-400 text-sm"
-          />
+          <div className="relative w-full flex-1">
+            <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-3 pl-10 rounded-lg bg-gray-800 text-white focus:ring-2 focus:ring-green-500 placeholder-gray-400 text-sm"
+            />
+          </div>
           <button
             type="submit"
-            className="w-full sm:w-1/3 bg-green-500 hover:bg-green-600 text-white text-sm px-6 py-3 rounded-lg transition-all"
+            className="w-full sm:w-1/3 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm px-6 py-3 rounded-lg transition-all"
           >
-            Subscribe
+            Subscribe <FaPaperPlane />
           </button>
         </form>
         {message && (
@@ -98,7 +103,8 @@ const Footer = () => {
             ABCare
           </h2>
           <p className="text-sm text-gray-400">
-            Providing high-standard healthcare services, including Lab, Physio, Nursing, and Pharmacy delivery.
+            Providing high-standard healthcare services, including Lab, Physio,
+            Nursing, and Pharmacy delivery.
           </p>
         </div>
 
@@ -107,16 +113,51 @@ const Footer = () => {
           <h3 className="text-lg font-semibold text-white mb-3">Quick Links</h3>
           <ul className="space-y-2">
             {[
-              { label: "Pharmacy", icon: FaPills, link: "/medicines", color: "text-red-400" },
-              { label: "Lab Services", icon: FaHeartbeat, link: "/lab", color: "text-blue-400" },
-              { label: "Vaccination", icon: FaSyringe, link: "/vaccination", color: "text-yellow-400" },
-              { label: "Mother Care", icon: FaHandHoldingHeart, link: "/mothercare", color: "text-pink-400" },
-              { label: "Physio", icon: FaPhoneAlt, link: "/rehabilitationServices", color: "text-green-400" },
-              { label: "Tele Clinic", icon: FaPhoneAlt, link: "/tele", color: "text-purple-400" },
+              {
+                label: "Pharmacy",
+                icon: FaPills,
+                link: "/medicines",
+                color: "text-red-400",
+              },
+              {
+                label: "Lab Services",
+                icon: FaHeartbeat,
+                link: "/lab",
+                color: "text-blue-400",
+              },
+              {
+                label: "Vaccination",
+                icon: FaSyringe,
+                link: "/vaccination",
+                color: "text-yellow-400",
+              },
+              {
+                label: "Mother Care",
+                icon: FaHandHoldingHeart,
+                link: "/mothercare",
+                color: "text-pink-400",
+              },
+              {
+                label: "Physio",
+                icon: FaPhoneAlt,
+                link: "/rehabilitationServices",
+                color: "text-green-400",
+              },
+              {
+                label: "Tele Clinic",
+                icon: FaPhoneAlt,
+                link: "/tele",
+                color: "text-purple-400",
+              },
             ].map(({ label, icon: Icon, link, color }) => (
               <li key={label} className="flex items-center gap-3 group">
-                <Icon className={`${color} text-lg transition-colors group-hover:text-white`} />
-                <Link href={link} className="text-sm text-gray-300 hover:text-green-400 transition-all">
+                <Icon
+                  className={`${color} text-lg transition-colors group-hover:text-white`}
+                />
+                <Link
+                  href={link}
+                  className="text-sm text-gray-300 hover:text-green-400 transition-all"
+                >
                   {label}
                 </Link>
               </li>
@@ -127,7 +168,9 @@ const Footer = () => {
         {/* Contact Info */}
         <div>
           <h3 className="text-lg font-semibold text-white mb-3">Contact Us</h3>
-          <p className="text-sm text-gray-400">📍 123 Healthcare Street, Jaranwala, Pakistan</p>
+          <p className="text-sm text-gray-400">
+            📍 123 Healthcare Street, Jaranwala, Pakistan
+          </p>
           <p className="text-sm text-gray-400">📧 info@abcare.com</p>
           <p className="text-sm text-gray-400">📞 +123 456 7890</p>
         </div>

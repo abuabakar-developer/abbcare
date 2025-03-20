@@ -93,25 +93,41 @@ const MedicinePage: React.FC = () => {
 
   return (
     <div className="w-full px-6 sm:px-12 lg:px-20 py-16 bg-gradient-to-br from-gray-900 to-gray-800 text-gray-200">
-      {/* Heading */}
-      <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-green-400 leading-tight tracking-wide mb-10">
-        Abcare Medicine Delivery
-      </h1>
+      {/* Header */}
+      <div className="text-center">
+        <h1
+          className="font-extrabold tracking-wide leading-tight mb-6 animate-fade-in"
+          style={{
+            fontSize: "clamp(2rem, 5vw, 4rem)",
+            lineHeight: "1.2",
+            textShadow: "2px 2px 10px rgba(0, 255, 255, 0.3)",
+            backgroundImage: "linear-gradient(90deg, #34d399, #3b82f6)",
+            WebkitBackgroundClip: "text",
+            color: "transparent",
+          }}
+        >
+          Abcare Medicine Delivery
+        </h1>
+        <p className="text-base sm:text-lg text-gray-300 leading-relaxed tracking-wide max-w-3xl mx-auto">
+          Get your medicines delivered swiftly and securely at your doorstep with ease.
+        </p>
+      </div>
 
-      {/* Description */}
-      <p className="text-lg sm:text-xl text-gray-300 text-center leading-relaxed tracking-wide mb-12 max-w-4xl mx-auto">
-        Get your medicines delivered swiftly and securely at your doorstep with ease.
-      </p>
-
-      {/* Services Section */}
+      {/* Service Details */}
       <section className="mt-12 lg:flex lg:items-center lg:space-x-12">
         <div className="lg:w-1/2">
           <h2 className="text-3xl font-semibold text-green-300 mb-6 tracking-wide">Why Choose Abcare?</h2>
-          <ul className="list-disc pl-8 space-y-4 text-gray-300 text-lg leading-relaxed">
-            <li>✔ Fast and reliable delivery</li>
-            <li>✔ Large variety of medicines</li>
-            <li>✔ Easy, user-friendly process</li>
-            <li>✔ Trusted by thousands</li>
+          <ul className="space-y-5">
+            {[
+              "✔ Fast and reliable delivery",
+              "✔ Large variety of medicines",
+              "✔ Easy, user-friendly process",
+              "✔ Trusted by thousands",
+            ].map((item, index) => (
+              <li key={index} className="text-lg text-gray-300">
+                {item}
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -122,7 +138,7 @@ const MedicinePage: React.FC = () => {
             alt="Medicine Delivery"
             width={700}
             height={400}
-            className="rounded-lg shadow-2xl lg:max-h-[350px] transform hover:scale-105 transition duration-300 hover:shadow-green-500"
+            className="rounded-lg shadow-2xl transform hover:scale-105 transition duration-300 hover:shadow-green-500"
           />
         </div>
       </section>
@@ -134,32 +150,30 @@ const MedicinePage: React.FC = () => {
       >
         {/* Selection Buttons */}
         <div className="flex justify-center space-x-6">
-          <button
-            type="button"
-            className={`px-6 py-3 text-lg font-medium rounded-xl transition-all duration-300 ${
-              selectedOption === "medicines" ? "bg-green-600 text-white shadow-lg" : "bg-gray-700 hover:bg-green-500 hover:text-white"
-            }`}
-            onClick={() => handleOptionSelect("medicines")}
-          >
-            Medicines
-          </button>
-          <button
-            type="button"
-            className={`px-6 py-3 text-lg font-medium rounded-xl transition-all duration-300 ${
-              selectedOption === "prescription" ? "bg-green-600 text-white shadow-lg" : "bg-gray-700 hover:bg-green-500 hover:text-white"
-            }`}
-            onClick={() => handleOptionSelect("prescription")}
-          >
-            Prescription
-          </button>
+          {["medicines", "prescription"].map((option) => (
+            <button
+              key={option}
+              type="button"
+              className={`px-6 py-3 text-lg font-medium rounded-xl transition-all duration-300 ${
+                selectedOption === option
+                  ? "bg-green-600 text-white shadow-lg"
+                  : "bg-gray-700 hover:bg-green-500 hover:text-white"
+              }`}
+              onClick={() => handleOptionSelect(option as "medicines" | "prescription")}
+            >
+              {option.charAt(0).toUpperCase() + option.slice(1)}
+            </button>
+          ))}
         </div>
 
         {/* Form Fields */}
         <div className="grid grid-cols-1 gap-6">
-          {[{ name: "patientName", placeholder: "Patient Name" },
+          {[
+            { name: "patientName", placeholder: "Patient Name" },
             { name: "address", placeholder: "Address" },
             { name: "mobile", placeholder: "Mobile Number" },
-            { name: "city", placeholder: "City" }].map(({ name, placeholder }) => (
+            { name: "city", placeholder: "City" },
+          ].map(({ name, placeholder }) => (
             <input
               key={name}
               type="text"
@@ -171,7 +185,7 @@ const MedicinePage: React.FC = () => {
               className="w-full px-5 py-4 text-lg bg-gray-700 border border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500"
             />
           ))}
-          
+
           {selectedOption === "medicines" && (
             <input
               type="text"
