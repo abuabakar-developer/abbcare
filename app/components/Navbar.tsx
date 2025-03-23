@@ -36,6 +36,16 @@ const Navbar = () => {
     router.push("/login"); // Redirect to login
   };
 
+  const handleBookAppointmentClick = () => {
+    if (isLoggedIn) {
+      // If the user is authenticated, redirect to the book appointment page
+      router.push("/book-appointment");
+    } else {
+      // If the user is not authenticated, redirect to the login page
+      router.push("/login");
+    }
+  };
+
   return (
     <nav className="bg-gradient-to-r from-gray-900 to-gray-800 text-white shadow-lg sticky top-0 z-50 border-b border-gray-700">
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
@@ -90,9 +100,12 @@ const Navbar = () => {
 
         {/* Desktop Buttons */}
         <div className="hidden lg:flex items-center space-x-3">
-          <Link href="/book-appointment" className="bg-green-600 text-white px-5 py-2 rounded-full shadow-md hover:bg-green-500 transition">
+          <button
+            onClick={handleBookAppointmentClick}
+            className="bg-green-600 text-white px-5 py-2 rounded-full shadow-md hover:bg-green-500 transition"
+          >
             Book Appointment
-          </Link>
+          </button>
 
           {isLoggedIn && (
             <Link href="/dashboard" className="bg-teal-600 text-white px-5 py-2 rounded-full shadow-md hover:bg-teal-500 transition">
@@ -141,9 +154,12 @@ const Navbar = () => {
               About Us
             </Link>
             <div className="mt-6 flex flex-col gap-3">
-              <Link href="/book-appointment" className="w-full bg-green-600 text-white text-center py-3 rounded-md shadow-md hover:bg-green-500 transition" onClick={() => setMenuOpen(false)}>
+              <button
+                onClick={handleBookAppointmentClick}
+                className="w-full bg-green-600 text-white text-center py-3 rounded-md shadow-md hover:bg-green-500 transition"
+              >
                 Book Appointment
-              </Link>
+              </button>
               {isLoggedIn && (
                 <Link href="/dashboard" className="w-full bg-teal-600 text-white text-center py-3 rounded-md shadow-md hover:bg-teal-500 transition" onClick={() => setMenuOpen(false)}>
                   My Appointments
@@ -179,13 +195,7 @@ const Navbar = () => {
               ← Back to Main Menu
             </button>
             <div className="mt-4 space-y-2">
-              {[
-                { name: "Pharmacy", path: "/medicines" },
-                { name: "Vaccination", path: "/vaccination" },
-                { name: "Phisio", path: "/rehabilitationServices" },
-                { name: "Mothercare", path: "/mothercare" },
-                { name: "Lab", path: "/lab" },
-              ].map((service) => (
+              {[{ name: "Pharmacy", path: "/medicines" }, { name: "Vaccination", path: "/vaccination" }, { name: "Phisio", path: "/rehabilitationServices" }, { name: "Mothercare", path: "/mothercare" }, { name: "Lab", path: "/lab" }].map((service) => (
                 <Link
                   key={service.name}
                   href={service.path}

@@ -15,7 +15,7 @@ interface Appointment {
 }
 
 const DashboardPage = () => {
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [lastTenAppointments, setLastTenAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"scheduled" | "pending" | "canceled">("scheduled");
   const router = useRouter();
@@ -37,7 +37,7 @@ const DashboardPage = () => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
 
-        setAppointments(data.data || []);
+        setLastTenAppointments(data.data.slice(0, 10)); // Get the last 10 appointments
       } catch (error) {
         console.error("Error fetching appointments:", error);
         toast.error("Failed to load appointments.");
@@ -71,7 +71,7 @@ const DashboardPage = () => {
         throw new Error(data.error || "Failed to update appointment.");
       }
 
-      setAppointments((prev) =>
+      setLastTenAppointments((prev) =>
         prev.map((appointment) =>
           appointment._id === id ? { ...appointment, status: newStatus } : appointment
         )
@@ -84,11 +84,15 @@ const DashboardPage = () => {
     }
   };
 
+  const handleNewAppointment = () => {
+    router.push("/book-appointment");
+  };
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white py-12 px-4 sm:px-8 md:px-12">
+    <div className="min-h-screen bg-gray-950 text-white py-12 px-4 sm:px-8 md:px-12">
       <ToastContainer />
-      <div className="max-w-6xl mx-auto p-6 sm:p-10 md:p-14 rounded-xl shadow-xl bg-gray-800">
-        <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-200 text-center mb-6">
+      <div className="max-w-6xl mx-auto p-6 sm:p-10 md:p-14 rounded-xl shadow-xl bg-gray-950">
+        <h3 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400 text-center mb-12">
           Your Appointments
         </h3>
 
@@ -99,7 +103,7 @@ const DashboardPage = () => {
               onClick={() => setActiveTab(tab as "scheduled" | "pending" | "canceled")}
               className={`px-6 py-3 rounded-lg font-semibold text-lg transition duration-300 transform hover:scale-105 focus:outline-none ${
                 activeTab === tab
-                  ? "bg-blue-600 text-white shadow-md"
+                  ? "bg-green-600 text-white shadow-md"
                   : "bg-gray-700 text-gray-300"
               }`}
             >
@@ -110,11 +114,11 @@ const DashboardPage = () => {
 
         {loading ? (
           <div className="flex justify-center mt-10">
-            <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+            <div className="w-12 h-12 border-4 border-green-500 border-dashed rounded-full animate-spin"></div>
           </div>
         ) : (
           <div className="mt-8 space-y-4">
-            {appointments
+            {lastTenAppointments
               .filter((appointment) => appointment.status === activeTab)
               .map((appointment) => (
                 <div
@@ -123,7 +127,9 @@ const DashboardPage = () => {
                 >
                   <div>
                     <h4 className="text-lg sm:text-xl font-semibold text-gray-200">{appointment.fullName}</h4>
-                    <p className="text-sm sm:text-base text-gray-400">{appointment.dateOfBirth} - {appointment.service}</p>
+                    <p className="text-sm sm:text-base text-gray-400">
+                      {appointment.dateOfBirth} - {appointment.service}
+                    </p>
                     <span
                       className={`inline-block text-xs font-semibold px-3 py-1 rounded-full mt-3 ${
                         appointment.status === "scheduled"
@@ -160,6 +166,15 @@ const DashboardPage = () => {
               ))}
           </div>
         )}
+
+        <div className="mt-6 flex justify-center">
+          <button
+            onClick={handleNewAppointment}
+            className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold text-lg transition duration-300 transform hover:scale-105"
+          >
+            Book New Appointment
+          </button>
+        </div>
       </div>
     </div>
   );

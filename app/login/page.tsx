@@ -24,7 +24,6 @@ const LoginPage = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setIsLoading(true);
 
     try {
@@ -54,7 +53,7 @@ const LoginPage = () => {
       });
 
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push('/book-appointment'); // Redirecting to book-appointment page
       }, 3000);
     } catch (err) {
       console.error(err);
@@ -68,7 +67,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700">
+    <div className="flex items-center justify-center min-h-screen bg-gray-950">
       <ToastContainer />
       <div className="w-full max-w-md p-8 bg-gray-800 rounded-xl shadow-lg space-y-8">
         <div className="flex flex-col items-center space-y-4">
@@ -123,11 +122,7 @@ const LoginPage = () => {
             </div>
           </div>
 
-          {error && (
-            <div className="text-sm text-red-600">
-              {error}
-            </div>
-          )}
+          {error && <div className="text-sm text-red-600">{error}</div>}
 
           <button
             type="submit"
