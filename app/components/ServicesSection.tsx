@@ -107,7 +107,7 @@ const ServicesSection: React.FC = () => {
   ];
 
   return (
-    <div className="bg-gray-950 py-12 pt-20 px-6 md:px-12 lg:px-20">
+    <div className=" mt-12 bg-gray-950 py-12 pt-20 px-6 md:px-12 lg:px-20">
       <div className="max-w-6xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
@@ -153,3 +153,7 @@ const ServicesSection: React.FC = () => {
 };
 
 export default ServicesSection;
+
+
+
+

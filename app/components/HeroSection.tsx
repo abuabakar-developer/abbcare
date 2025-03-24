@@ -1,103 +1,86 @@
-"use client"; 
+"use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import BackgroundLines from "./BackgroundLines";
+import { UserIcon, HeartIcon, PlusCircleIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 
 const HeroSection = () => {
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
-  }, []);
 
   const handleBookAppointment = () => {
-    router.push(isAuthenticated ? "/book-appointment" : "/login");
-  };
-
-  const handleBrowseServices = () => {
-    router.push("/services");
+    router.push("/book-appointment");
   };
 
   return (
-    <section className="relative bg-gray-900 text-white flex items-center justify-center min-h-screen w-full overflow-hidden px-6 sm:px-8">
+    <section className="relative bg-gray-900 text-white py-12 sm:py-16 md:py-24 overflow-visible">
       <BackgroundLines />
 
-      <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between z-10">
-        {/* Left Section - Text Content */}
+      {/* Hero Content */}
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4 sm:px-6 relative z-10">
+        {/* Left: Text Content */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="text-center lg:text-left space-y-6 max-w-lg"
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="flex-1 text-center md:text-left space-y-6"
         >
-          <h1 className="text-4xl sm:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500 leading-tight">
-            Premium Healthcare for Everyone
+          <h1 className="text-3xl sm:text-4xl font-extrabold leading-snug bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
+            Trusted Healthcare for Everyone
           </h1>
-          <p className="text-lg sm:text-xl text-gray-300">
-            Our expert doctors deliver world-class medical care tailored to your health needs.
+          <p className="text-sm sm:text-base max-w-md mx-auto md:mx-0 text-gray-300">
+            Our expert doctors provide top-notch medical care tailored to your needs. Your health is our priority.
           </p>
 
-          {/* Buttons */}
-          <div className="mt-6 flex flex-col sm:flex-row gap-4 items-center justify-center sm:justify-start">
+          {/* Centering Button on Small Screens */}
+          <div className="flex justify-center md:justify-start">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleBookAppointment}
-              className="flex items-center justify-center gap-2 w-1/2 sm:w-auto px-4 sm:px-6 py-3 bg-green-600 text-white text-lg font-semibold rounded-full shadow-lg hover:bg-green-700 transition"
+              className="mt-4 py-3 px-6 bg-green-600 text-white font-semibold text-sm sm:text-base rounded-full hover:bg-green-700 shadow-lg transition duration-300 flex items-center gap-2"
             >
-              <ArrowRight className="w-5 h-5" />
-              <span className="sm:inline">Book Appointment</span>
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleBrowseServices}
-              className="flex items-center justify-center gap-2 w-[45%] sm:w-auto px-4 sm:px-6 py-3 bg-gray-800 text-white text-lg font-semibold rounded-full shadow-lg hover:bg-gray-700 transition"
-            >
-              Browse Services
+              Book Appointment
+              <ArrowRightIcon className="h-5 w-5" />
             </motion.button>
           </div>
         </motion.div>
 
-        {/* Right Section - Doctor Image & Stats */}
-        <motion.div whileHover={{ scale: 1.03 }} className="relative mt-10 lg:mt-0 flex justify-center">
-          <div className="relative">
+        {/* Right: Doctor Image with Glow Effect */}
+        <div className="flex-1 flex justify-center md:justify-end mt-8 md:mt-0 relative">
+          <motion.div whileHover={{ scale: 1.05 }} className="relative group overflow-hidden">
+            <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none">
+              <div className="absolute w-44 h-44 bg-green-500 opacity-0 group-hover:opacity-30 rounded-full blur-xl transition duration-300"></div>
+            </div>
             <Image
               src="/abcares.webp"
               alt="Doctor Illustration"
               width={450}
-              height={450}
-              className="rounded-xl shadow-2xl object-contain max-h-[75vh]"
+              height={350}
+              className="rounded-lg shadow-2xl transition-transform duration-300"
             />
+          </motion.div>
+        </div>
+      </div>
 
-            {/* Stats Section */}
-            <div className="absolute bottom-[-40px] left-1/2 transform -translate-x-1/2 w-full bg-gray-800 text-white rounded-xl shadow-lg p-4 sm:p-6 max-w-sm">
-              <div className="flex justify-between gap-4">
-                {[ 
-                  { label: "Expert Doctors", value: "500+", color: "text-green-400" },
-                  { label: "Patients Treated", value: "20K+", color: "text-blue-400" },
-                  { label: "Medical Services", value: "100+", color: "text-yellow-400" },
-                ].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    whileHover={{ scale: 1.05 }}
-                    className="p-4 bg-gray-900 rounded-lg shadow-md border border-gray-700 flex-1 text-center"
-                  >
-                    <h2 className={`${item.color} text-xl font-bold`}>{item.value}</h2>
-                    <p className="text-sm text-gray-300">{item.label}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.div>
+      {/* Statistics Section - Half inside Hero & Half Below */}
+      <div className="absolute left-1/2 transform -translate-x-1/2 bottom-[-50px] w-full max-w-5xl bg-gray-800 bg-opacity-90 rounded-2xl shadow-xl px-8 py-6 flex flex-wrap justify-around items-center z-20 backdrop-blur-md border border-gray-700">
+        <div className="flex flex-col items-center space-y-1">
+          <UserIcon className="h-10 w-10 text-green-400" />
+          <span className="text-2xl font-bold text-green-400">+102</span>
+          <span className="text-sm text-gray-300">Doctors</span>
+        </div>
+        <div className="flex flex-col items-center space-y-1">
+          <HeartIcon className="h-10 w-10 text-blue-400" />
+          <span className="text-2xl font-bold text-blue-400">2K+</span>
+          <span className="text-sm text-gray-300">Patient Services</span>
+        </div>
+        <div className="flex flex-col items-center space-y-1">
+          <PlusCircleIcon className="h-10 w-10 text-yellow-400" />
+          <span className="text-2xl font-bold text-yellow-400">32+</span>
+          <span className="text-sm text-gray-300">Treatments</span>
+        </div>
       </div>
     </section>
   );
