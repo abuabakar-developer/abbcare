@@ -66,7 +66,7 @@ const Footer = () => {
             </div>
             <button
               type="submit"
-              className="px-6 py-3 text-base bg-green-500 hover:bg-green-600 text-white rounded-lg flex items-center gap-2 transition-all focus:ring-4 focus:ring-green-400"
+              className="mr-4 px-6 py-3 text-base bg-green-500 hover:bg-green-600 text-white rounded-lg flex items-center gap-2 transition-all focus:ring-4 focus:ring-green-400"
             >
               Subscribe <FaPaperPlane />
             </button>
@@ -166,3 +166,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
+

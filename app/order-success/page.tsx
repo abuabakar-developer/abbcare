@@ -18,12 +18,12 @@ const OrderSuccess = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-800 to-gray-900 text-white px-6 sm:px-12 lg:px-20">
       <div className="text-center max-w-xl mx-auto">
         {/* Image with responsive sizes and animation */}
-        <div className="relative w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56 mx-auto animate-bounce">
+        <div className="relative w-40 h-40 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto animate-bounce">
           <Image
             src="/pharm.webp"
             alt="Order Successful"
-            width={200}
-            height={200}
+            width={400}
+            height={400}
             className="absolute inset-0 object-cover rounded-full shadow-xl"
           />
         </div>

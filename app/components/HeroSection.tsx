@@ -1,4 +1,4 @@
-"use client";
+"use client"; 
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -11,85 +11,93 @@ const HeroSection = () => {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Check if user is authenticated
   useEffect(() => {
-    const token = localStorage.getItem("token"); // Get JWT token from localStorage
+    const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
   }, []);
 
   const handleBookAppointment = () => {
-    if (isAuthenticated) {
-      router.push("/book-appointment"); // Redirect to appointment page
-    } else {
-      router.push("/login"); // Redirect to login page
-    }
+    router.push(isAuthenticated ? "/book-appointment" : "/login");
+  };
+
+  const handleBrowseServices = () => {
+    router.push("/services");
   };
 
   return (
-    <section className="relative bg-gray-900 text-white overflow-hidden flex flex-col items-center justify-center min-h-[70vh] sm:min-h-[75vh] lg:min-h-[60vh] w-full pt-0 sm:pt-6 lg:pt-0">
+    <section className="relative bg-gray-900 text-white flex items-center justify-center min-h-screen w-full overflow-hidden px-6 sm:px-8">
       <BackgroundLines />
 
-      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-6 sm:px-8 relative z-10">
-        {/* Left Side: Text Content */}
+      <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between z-10">
+        {/* Left Section - Text Content */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="flex-1 text-center md:text-left space-y-4"
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="text-center lg:text-left space-y-6 max-w-lg"
         >
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
+          <h1 className="text-4xl sm:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500 leading-tight">
             Premium Healthcare for Everyone
           </h1>
-          <p className="text-base sm:text-lg max-w-lg mx-auto md:mx-0 text-gray-300 leading-relaxed">
+          <p className="text-lg sm:text-xl text-gray-300">
             Our expert doctors deliver world-class medical care tailored to your health needs.
           </p>
 
-          {/* Book Appointment Button */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleBookAppointment}
-            className="mt-5 py-2 px-5 sm:py-3 sm:px-7 bg-green-600 text-white font-semibold text-sm sm:text-lg rounded-full hover:bg-green-700 shadow-xl transition duration-300 flex items-center gap-2"
-          >
-            Book Appointment <ArrowRight className="w-5 h-5" />
-          </motion.button>
+          {/* Buttons */}
+          <div className="mt-6 flex flex-col sm:flex-row gap-4 items-center justify-center sm:justify-start">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleBookAppointment}
+              className="flex items-center justify-center gap-2 w-1/2 sm:w-auto px-4 sm:px-6 py-3 bg-green-600 text-white text-lg font-semibold rounded-full shadow-lg hover:bg-green-700 transition"
+            >
+              <ArrowRight className="w-5 h-5" />
+              <span className="sm:inline">Book Appointment</span>
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleBrowseServices}
+              className="flex items-center justify-center gap-2 w-[45%] sm:w-auto px-4 sm:px-6 py-3 bg-gray-800 text-white text-lg font-semibold rounded-full shadow-lg hover:bg-gray-700 transition"
+            >
+              Browse Services
+            </motion.button>
+          </div>
         </motion.div>
 
-        {/* Right Side: Doctor Illustration with Stats */}
-        <div className="flex-1 flex justify-center md:justify-end mt-14 sm:mt-16 lg:mt-4 relative">
-          <motion.div whileHover={{ scale: 1.05 }} className="relative group overflow-visible">
-            <div className="relative -mt-8 lg:-mt-24 pt-24">
-              <Image
-                src="/abcares.webp"
-                alt="Doctor Illustration"
-                width={450}
-                height={300}
-                className="rounded-xl shadow-2xl transition-transform duration-300 object-contain"
-                style={{ maxHeight: "80vh", objectFit: "contain" }}
-              />
+        {/* Right Section - Doctor Image & Stats */}
+        <motion.div whileHover={{ scale: 1.03 }} className="relative mt-10 lg:mt-0 flex justify-center">
+          <div className="relative">
+            <Image
+              src="/abcares.webp"
+              alt="Doctor Illustration"
+              width={450}
+              height={450}
+              className="rounded-xl shadow-2xl object-contain max-h-[75vh]"
+            />
 
-              {/* Stats Section */}
-              <div className="absolute bottom-[-40px] left-0 w-full bg-gray-800 text-white rounded-t-xl shadow-lg p-4 sm:p-6">
-                <div className="flex flex-row justify-center sm:justify-start gap-4">
-                  <motion.div whileHover={{ scale: 1.03 }} className="p-3 sm:p-4 bg-gray-900 rounded-md shadow-md border border-gray-700 flex-1">
-                    <h2 className="text-base sm:text-xl font-bold text-green-400">500+</h2>
-                    <p className="text-xs sm:text-sm text-gray-300">Expert Doctors</p>
+            {/* Stats Section */}
+            <div className="absolute bottom-[-40px] left-1/2 transform -translate-x-1/2 w-full bg-gray-800 text-white rounded-xl shadow-lg p-4 sm:p-6 max-w-sm">
+              <div className="flex justify-between gap-4">
+                {[ 
+                  { label: "Expert Doctors", value: "500+", color: "text-green-400" },
+                  { label: "Patients Treated", value: "20K+", color: "text-blue-400" },
+                  { label: "Medical Services", value: "100+", color: "text-yellow-400" },
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{ scale: 1.05 }}
+                    className="p-4 bg-gray-900 rounded-lg shadow-md border border-gray-700 flex-1 text-center"
+                  >
+                    <h2 className={`${item.color} text-xl font-bold`}>{item.value}</h2>
+                    <p className="text-sm text-gray-300">{item.label}</p>
                   </motion.div>
-
-                  <motion.div whileHover={{ scale: 1.03 }} className="p-3 sm:p-4 bg-gray-900 rounded-md shadow-md border border-gray-700 flex-1">
-                    <h2 className="text-base sm:text-xl font-bold text-blue-400">20K+</h2>
-                    <p className="text-xs sm:text-sm text-gray-300">Patients Treated</p>
-                  </motion.div>
-
-                  <motion.div whileHover={{ scale: 1.03 }} className="p-3 sm:p-4 bg-gray-900 rounded-md shadow-md border border-gray-700 flex-1">
-                    <h2 className="text-base sm:text-xl font-bold text-yellow-400">100+</h2>
-                    <p className="text-xs sm:text-sm text-gray-300">Medical Services</p>
-                  </motion.div>
-                </div>
+                ))}
               </div>
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
