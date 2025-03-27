@@ -1,5 +1,3 @@
-
-
 "use client"; // Keep this because useState and useEffect are used
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -25,11 +23,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-  const [showPrompt, setShowPrompt] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [showPrompt, setShowPrompt] = useState<boolean>(false);
 
   useEffect(() => {
-    const handler = (e: any) => {
+    const handler = (e: BeforeInstallPromptEvent) => {
       e.preventDefault();
       setDeferredPrompt(e);
       setTimeout(() => {
@@ -37,14 +35,14 @@ export default function RootLayout({
       }, 3000); // Show install prompt after 3 seconds
     };
 
-    window.addEventListener("beforeinstallprompt", handler);
-    return () => window.removeEventListener("beforeinstallprompt", handler);
+    window.addEventListener("beforeinstallprompt", handler as EventListener);
+    return () => window.removeEventListener("beforeinstallprompt", handler as EventListener);
   }, []);
 
   const installApp = () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult: any) => {
+      deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
           console.log("User installed the app");
         } else {
@@ -91,6 +89,12 @@ export default function RootLayout({
       </body>
     </html>
   );
+}
+
+// Define the missing BeforeInstallPromptEvent type
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => void;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
 
