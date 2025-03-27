@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { FaUser, FaIdCard, FaCalendarAlt, FaEnvelope, FaPhone } from 'react-icons/fa';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
 
 interface FormDataType {
   fullName: string;
@@ -36,7 +37,7 @@ const BookAppointment = () => {
   });
 
   const [selectedDoctor, setSelectedDoctor] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null); // This is now used
+  const [error, setError] = useState<string | null>(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -49,17 +50,51 @@ const BookAppointment = () => {
     setError(null); // Clear error when a doctor is selected
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedDoctor) {
       setError('Please select a doctor before confirming the appointment.');
       return;
     }
 
-    setShowConfirmation(true);
-    setTimeout(() => {
-      setShowConfirmation(false);
-    }, 5000);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please log in.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/appointments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userId: 'userId',  // Replace this with the actual logged-in user's ID
+          fullName: formData.fullName,
+          cnic: formData.cnic,
+          dateOfBirth: formData.dateOfBirth,
+          contact: formData.contact,
+          service: formData.service,
+          selectedDate: formData.selectedDate,
+          selectedTime: formData.selectedTime,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setShowConfirmation(true);
+        setTimeout(() => {
+          setShowConfirmation(false);
+        }, 5000);
+      } else {
+        toast.error(data.message || "Failed to book the appointment.");
+      }
+    } catch (error) {
+      console.error("Error booking appointment:", error);
+      toast.error("Error booking appointment.");
+    }
   };
 
   return (
@@ -68,13 +103,12 @@ const BookAppointment = () => {
         Book an Appointment
       </h2>
 
-      {/* Container for form & doctor selection */}
       <div className="flex flex-col lg:flex-row justify-center items-stretch w-full max-w-6xl space-y-12 lg:space-y-0 lg:space-x-12">
-        {/* Left Section - Appointment Form */}
+        {/* Form Section */}
         <div className="w-full lg:w-1/2 bg-gray-800 shadow-2xl rounded-2xl border border-gray-600 p-8 lg:p-12 flex flex-col">
           <form className="space-y-6 flex-grow" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {[
+              {[ 
                 { label: 'Full Name', name: 'fullName', type: 'text', icon: FaUser },
                 { label: 'CNIC', name: 'cnic', type: 'text', icon: FaIdCard },
                 { label: 'Date of Birth', name: 'dateOfBirth', type: 'date', icon: FaCalendarAlt },
@@ -95,8 +129,34 @@ const BookAppointment = () => {
                   />
                 </div>
               ))}
+
+              {/* Date and Time Select Fields */}
+              <div className="relative">
+                <label className="text-white block mb-1">Select Date</label>
+                <input
+                  type="date"
+                  name="selectedDate"
+                  value={formData.selectedDate}
+                  onChange={handleChange}
+                  required
+                  className="w-full bg-gray-700 text-gray-300 border border-gray-600 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 outline-none transition-all"
+                />
+              </div>
+
+              <div className="relative">
+                <label className="text-white block mb-1">Select Time</label>
+                <input
+                  type="time"
+                  name="selectedTime"
+                  value={formData.selectedTime}
+                  onChange={handleChange}
+                  required
+                  className="w-full bg-gray-700 text-gray-300 border border-gray-600 rounded-xl py-3 px-4 focus:ring-2 focus:ring-green-500 outline-none transition-all"
+                />
+              </div>
             </div>
 
+            {/* Select Service */}
             <div>
               <label className="text-white block mb-1">Select Service</label>
               <select
@@ -112,18 +172,10 @@ const BookAppointment = () => {
                 <option value="Home Vaccination">Home Vaccination</option>
               </select>
             </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full bg-green-600 text-white font-semibold py-3 rounded-xl hover:bg-green-700 transition-all shadow-lg mt-6"
-            >
-              Submit Appointment
-            </button>
           </form>
         </div>
 
-        {/* Right Section - Doctor Selection */}
+        {/* Doctor Selection & Submit Button */}
         <div className="w-full lg:w-1/2 bg-gray-800 shadow-2xl rounded-2xl border border-gray-600 p-8 flex flex-col">
           <h2 className="text-2xl font-bold text-white text-center mb-8">Doctor Appointment List</h2>
 
@@ -151,8 +203,15 @@ const BookAppointment = () => {
             ))}
           </div>
 
-          {/* Error Message */}
           {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+
+          {/* Submit Button in Doctor Section */}
+          <button
+            onClick={handleSubmit}
+            className="w-full bg-green-600 text-white font-semibold py-3 rounded-xl hover:bg-green-700 transition-all shadow-lg mt-6"
+          >
+            Submit Appointment
+          </button>
         </div>
       </div>
 
@@ -176,3 +235,4 @@ const BookAppointment = () => {
 };
 
 export default BookAppointment;
+
