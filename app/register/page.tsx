@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -12,7 +13,9 @@ const RegisterPage = () => {
     phone: '',
     dateOfBirth: '',
   });
+
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +25,8 @@ const RegisterPage = () => {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
 
     try {
       const res = await fetch('/api/auth/register', {
@@ -33,6 +38,7 @@ const RegisterPage = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
 
+      // Optional: You can also show a success message here if you want
       router.push('/login'); // Redirect to login after successful registration
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -40,17 +46,19 @@ const RegisterPage = () => {
       } else {
         setError('An unknown error occurred.');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center py-6 sm:py-12">
+    <div className="min-h-screen bg-gray-950 flex items-center justify-center py-6 sm:py-12">
       <div className="max-w-md w-full bg-gray-800 p-8 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-semibold text-center text-green-500 mb-6">Sign Up as Patient</h2>
+        <h2 className="text-3xl font-semibold text-center text-white mb-6">Sign Up as Patient</h2>
 
         {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
 
-        <form onSubmit={handleRegister} className="space-y-6">
+        <form onSubmit={handleRegister} className="space-y-5">
           <div>
             <label className="block text-sm font-medium text-gray-300">First Name</label>
             <input
@@ -131,10 +139,20 @@ const RegisterPage = () => {
           <div>
             <button
               type="submit"
-              className="w-full py-3 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+              disabled={loading}
+              className={`w-full py-3 ${loading ? 'bg-green-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'} text-white font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-green-500`}
             >
-              Register
+              {loading ? 'Registering...' : 'Register'}
             </button>
+          </div>
+
+          <div className="text-center mt-2">
+            <p className="text-gray-300 text-sm">
+              Already have an account?{' '}
+              <Link href="/login" className="text-green-500 hover:underline font-medium">
+                Login here
+              </Link>
+            </p>
           </div>
         </form>
       </div>
