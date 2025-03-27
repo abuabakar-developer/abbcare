@@ -8,12 +8,12 @@
   "theme_color": "#34d399",
   "icons": [
     {
-      "src": "/abacare-icon.png",
+      "src": "/te.webp",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/abacare-icon-512.png",
+      "src": "/te.webp",
       "sizes": "512x512",
       "type": "image/png"
     }
