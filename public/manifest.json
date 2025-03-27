@@ -1,1 +1,21 @@
-
+{
+  "name": "Abacare App",
+  "short_name": "Abacare",
+  "description": "The best healthcare service platform.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#34d399",
+  "icons": [
+    {
+      "src": "/abacare-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/abacare-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
