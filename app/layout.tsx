@@ -1,6 +1,6 @@
-"use client"; // ✅ Fix: Mark this as a client component
 
-import type { Metadata } from "next";
+
+"use client"; // Keep this because useState and useEffect are used
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
@@ -19,11 +19,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-export const metadata: Metadata = {
-  title: "Abacare App",
-  description: "The best healthcare service platform.",
-};
 
 export default function RootLayout({
   children,
@@ -97,5 +92,6 @@ export default function RootLayout({
     </html>
   );
 }
+
 
 
