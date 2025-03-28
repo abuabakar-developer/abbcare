@@ -1,12 +1,11 @@
-"use client"; // Keep this because useState and useEffect are used
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ServicesSection from "./components/ServicesSection";
 import HeroSection from "./components/HeroSection";
-import { useEffect, useState } from "react";
-import { CalendarCheck } from "lucide-react"; // Importing Book Appointment Icon
+import PWAInstallPrompt from "./components/PWAInstallPrompt"; // Import the component
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,48 +17,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const metadata: Metadata = {
+  title: "Abacare - Healthcare App",
+  description: "The best healthcare service platform.",
+};
+
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [showPrompt, setShowPrompt] = useState<boolean>(false);
-
-  useEffect(() => {
-    const handler = (e: BeforeInstallPromptEvent) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-      setTimeout(() => {
-        setShowPrompt(true);
-      }, 3000); // Show install prompt after 3 seconds
-    };
-
-    window.addEventListener("beforeinstallprompt", handler as EventListener);
-    return () => window.removeEventListener("beforeinstallprompt", handler as EventListener);
-  }, []);
-
-  const installApp = () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === "accepted") {
-          console.log("User installed the app");
-        } else {
-          console.log("User dismissed the install prompt");
-        }
-        setDeferredPrompt(null);
-        setShowPrompt(false);
-      });
-    }
-  };
-
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#34d399" />
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
@@ -67,34 +34,17 @@ export default function RootLayout({
         <HeroSection />
         <ServicesSection />
 
-        {/* Install Prompt Button */}
-        {showPrompt && (
-          <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-white shadow-lg p-3 rounded-lg flex items-center gap-3">
-            <CalendarCheck className="text-green-700 w-10 h-10" /> {/* Book Appointment Icon */}
-            <p className="text-green-700 font-bold">Install Abacare App</p>
-            <button
-              onClick={installApp}
-              className="bg-green-700 text-white px-3 py-2 rounded-lg"
-            >
-              Install
-            </button>
-          </div>
-        )}
-
-        {/* Main content from page.tsx */}
+        {/* Main content */}
         <main className="flex-grow">{children}</main>
 
-        {/* Footer at the bottom */}
+        {/* Install PWA Prompt */}
+        <PWAInstallPrompt />
+
+        {/* Footer */}
         <Footer />
       </body>
     </html>
   );
-}
-
-// Define the missing BeforeInstallPromptEvent type
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => void;
-  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
 
