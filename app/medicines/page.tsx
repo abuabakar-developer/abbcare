@@ -81,7 +81,7 @@ const MedicinePage: React.FC = () => {
   };
 
   return (
-    <div className="w-full px-6 sm:px-12 lg:px-20 py-16 bg-gradient-to-br from-gray-900 to-gray-800 text-gray-200">
+    <div className="w-full px-6 sm:px-12 lg:px-20 py-16 bg-gray-950 text-gray-200">
       {/* Header */}
       <div className="text-center">
         <h1 className="font-extrabold tracking-wide leading-tight mb-6 animate-fade-in text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 text-4xl sm:text-5xl">
