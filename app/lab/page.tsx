@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 const LabPage = () => {
   return (
-    <div className="w-full px-6 sm:px-12 lg:px-20 py-16 bg-gradient-to-br from-gray-900 to-gray-800 text-gray-200">
+    <div className="w-full px-6 sm:px-12 lg:px-20 py-16 bg-gray-950 text-gray-200">
       {/* Heading */}
       <motion.h1 
         initial={{ opacity: 0, y: -50 }} 
