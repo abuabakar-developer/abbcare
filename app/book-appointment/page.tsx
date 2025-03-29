@@ -50,51 +50,20 @@ const BookAppointment = () => {
     setError(null); // Clear error when a doctor is selected
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedDoctor) {
       setError('Please select a doctor before confirming the appointment.');
       return;
     }
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("Please log in.");
-      return;
-    }
+    // Skip API call and directly show confirmation message
+    setShowConfirmation(true);
 
-    try {
-      const response = await fetch("/api/appointments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          userId: 'userId',  // Replace this with the actual logged-in user's ID
-          fullName: formData.fullName,
-          cnic: formData.cnic,
-          dateOfBirth: formData.dateOfBirth,
-          contact: formData.contact,
-          service: formData.service,
-          selectedDate: formData.selectedDate,
-          selectedTime: formData.selectedTime,
-        }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        setShowConfirmation(true);
-        setTimeout(() => {
-          setShowConfirmation(false);
-        }, 5000);
-      } else {
-        toast.error(data.message || "Failed to book the appointment.");
-      }
-    } catch (error) {
-      console.error("Error booking appointment:", error);
-      toast.error("Error booking appointment.");
-    }
+    // Optionally, you can simulate a delay before hiding the confirmation message
+    setTimeout(() => {
+      setShowConfirmation(false);
+    }, 5000);
   };
 
   return (
@@ -235,4 +204,3 @@ const BookAppointment = () => {
 };
 
 export default BookAppointment;
-
