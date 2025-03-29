@@ -192,7 +192,7 @@ const Navbar = () => {
               onClick={backToMainMenu}
               className="flex items-center px-4 py-3 text-white font-semibold hover:bg-green-700 rounded-md transition"
             >
-              ← Back 
+              ← Back to main 
             </button>
             <div className="mt-4 space-y-2">
               {[{ name: "Pharmacy", path: "/medicines" }, { name: "Vaccination", path: "/vaccination" }, { name: "Phisio", path: "/rehabilitationServices" }, { name: "Mothercare", path: "/mothercare" }, { name: "Lab", path: "/lab" }].map((service) => (
