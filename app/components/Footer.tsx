@@ -39,7 +39,7 @@ const Footer = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-gray-300 px-6 lg:px-20 font-sans">
+    <div className="bg-gray-950 text-gray-300 px-6 lg:px-20 font-sans">
       {/* Subscription Section */}
       <div className="max-w-7xl mx-auto border-b border-gray-700 py-10">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
