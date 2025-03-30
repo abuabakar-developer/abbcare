@@ -50,21 +50,22 @@ const BookAppointment = () => {
     setError(null); // Clear error when a doctor is selected
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedDoctor) {
-      setError('Please select a doctor before confirming the appointment.');
-      return;
-    }
 
-    // Skip API call and directly show confirmation message
-    setShowConfirmation(true);
+const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!selectedDoctor) {
+    setError('Please select a doctor before confirming the appointment.');
+    toast.error('Please select a doctor before confirming the appointment.');
+    return;
+  }
 
-    // Optionally, you can simulate a delay before hiding the confirmation message
-    setTimeout(() => {
-      setShowConfirmation(false);
-    }, 5000);
-  };
+  setShowConfirmation(true);
+  toast.success('Appointment booked successfully!');
+
+  setTimeout(() => {
+    setShowConfirmation(false);
+  }, 5000);
+};
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-950 px-6 py-12">
