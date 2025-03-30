@@ -83,7 +83,7 @@ const DoctorsPage: React.FC = () => {
   };
 
   return (
-    <section className="bg-gray-900 min-h-screen py-12 px-6 sm:px-10 md:px-14 lg:px-20 text-white">
+    <section className="bg-gray-950 min-h-screen py-12 px-6 sm:px-10 md:px-14 lg:px-20 text-white">
       <motion.div 
         initial={{ opacity: 0, y: -20 }} 
         animate={{ opacity: 1, y: 0 }} 
